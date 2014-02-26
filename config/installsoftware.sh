@@ -1,20 +1,26 @@
 #!/bin/bash
 
 
-echo "manual" > /etc/init/bluetooth.override
-echo "manual" > /etc/init/cups.override
-echo "manual" > /etc/init/lightdm.override
+echo "manual" | sudo tee /etc/init/bluetooth.override
+echo "manual" | sudo tee /etc/init/cups.override
+echo "manual" | sudo tee /etc/init/lightdm.override
 
 # add non-X system packages:
 sudo apt-get -y install ia32-libs libc6-i386 aptitude emacs vim openssh-server curl wget tmux tree htop imagemagick
 
+# add x2go repo for packages in next step:
+sudo add-apt-repository ppa:x2go/stable
+sudo apt-get udpate
+
 # add GUI system packages:
-sudo apt-get -y install lxde-common galternatives  x2goserver x2golxdebindings midori qt4-qtconfig mesa-utils geany
+sudo apt-get -y install lxde-common galternatives x2goserver x2golxdebindings midori qt4-qtconfig mesa-utils geany
 
 # add neuroimaging repos:
-sudo add-apt-repository ppa:x2go/stable
-sudo add-apt-repository "http://neuro.debian.net/debian main contrib non-free"
-sudo add-apt-repository "deb http://neuro.debian.net/debian data main contrib non-free"
+# 20140226: commented out Rob's previous config:
+#           sudo add-apt-repository "http://neuro.debian.net/debian main contrib non-free"
+#           sudo add-apt-repository "deb http://neuro.debian.net/debian data main contrib non-free"
+# ....and replaced with neurodebian-endorsed version:
+wget -O- http://neuro.debian.net/lists/precise.us-tn.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
 sudo apt-key adv --recv-keys --keyserver pgp.mit.edu 2649A5A9
 sudo apt-get update
 
@@ -34,8 +40,8 @@ sudo apt-get -y remove audacious audacious-plugins audacious-plugins-data libaud
 sudo apt-get -y remove system-config-printer-common system-config-printer-gnome
 
 # remove network-related packages:
-sudo apt-get -y remove chromium-browser chromium-browser-l10n chromium-codecs-ffmpeg mobile-broadband-provider-info modemmanager pidgin pidgin-data pidgin-microblog transmission transmission-common transmission-gtk
+sudo apt-get -y remove chromium-browser chromium-browser-l10n chromium-codecs-ffmpeg mobile-broadband-provider-info modemmanager network-manager-gnome pidgin pidgin-data pidgin-microblog transmission transmission-common transmission-gtk
 
 # remove misc. user-space cruft:
-sudo apt-get -y remove abiword abiword-common ace-of-penguins xpad  gnumeric gnumeric-common guvcview mtpaint osmo simple-scan sylpheed sylpheed-doc sylpheed-i18n sylpheed-plugins xfburn
+sudo apt-get -y remove abiword abiword-common ace-of-penguins xpad  gnumeric gnumeric-common guvcview mtpaint osmo simple-scan sylpheed sylpheed-doc sylpheed-i18n sylpheed-plugins xfburn xfce4-power-manager xfce4-power-manager-data
 
