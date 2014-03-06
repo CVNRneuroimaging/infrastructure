@@ -1,0 +1,3 @@
+This directory is for deprecated configs and documentation that need to be
+preserved for reference. E.g., legacy configs and that don't have any git
+history of their own.
