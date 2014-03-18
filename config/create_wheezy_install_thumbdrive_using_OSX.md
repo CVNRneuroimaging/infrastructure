@@ -44,7 +44,7 @@ stowler-rmbp:Downloads stowler$ diskutil list
    3:                 Apple_Boot Recovery HD             650.0 MB   disk0s3
 
 # ...and then I inserted my USB drive and re-ran this command, noting that the
-# USB drive was assiged /dev/disk2:
+# USB drive was assigned /dev/disk2:
 
 stowler-rmbp:Downloads stowler$ diskutil list
 /dev/disk0
