@@ -1,0 +1,2 @@
+*/2 * * * *  /usr/bin/x2go-start-local.sh &> /dev/null
+
