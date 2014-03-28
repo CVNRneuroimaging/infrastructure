@@ -1,0 +1,16 @@
+--- x2gosessionlimit.old	2014-03-28 11:44:28.622440050 -0400
++++ /usr/bin/x2gosessionlimit	2014-03-27 19:17:17.064323841 -0400
+@@ -28,6 +28,13 @@
+ use x2gologlevel;
+ 
+ 
++my $client_ip = (split(' ', $ENV{"SSH_CLIENT"}))[0];
++if ($client_ip ne "127.0.0.1") { 
++    print "LIMIT\n";
++    exit 0;
++}
++
++
+ openlog($0,'cons,pid','user');
+ setlogmask( LOG_UPTO(x2gologlevel()) );
+ 
