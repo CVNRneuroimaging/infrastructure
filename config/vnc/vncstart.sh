@@ -1,6 +1,10 @@
 #!/bin/bash
-PATH=$PATH:/opt/TurboVNC/bin
 
+#set -x
+
+
+# using tigervnc now
+#PATH=$PATH:/opt/TurboVNC/bin
 
 function kill_existing_tunnels ()
 {
@@ -21,10 +25,36 @@ function kill_existing_tunnels ()
 }
 
 
+
+
+
+#  Turbo vnc's script has this function, but tigervnc does not 
+#function get_display_list ()
+#{
+#    echo `vncserver -list |grep ":[[:digit:]]\+"|cut -f 1`;
+#}
+
+# we make some extra optimistic assumptions, viz., all connections 
+# are local, and the files are well-formed
+# 
+#   
 function get_display_list ()
 {
-    echo `vncserver -list |grep ":[[:digit:]]\+"|cut -f 1`;
+	hostname=`uname -n`
+
+	# split separately from the grep  
+	files=`ls $HOME/.vnc/* |grep .pid` 
+	
+	for file in $files; do
+		filename=`basename $file .pid`
+		displaynum=`echo "$filename"| cut -f 2 -d ":"`
+		pid=`cat $file`
+		echo ":$displaynum"
+	done;
+    #echo `vncserver -list |grep ":[[:digit:]]\+"|cut -f 1`;
 }
+
+
 
 function kill_all_display ()
 {
@@ -50,11 +80,12 @@ DISPLIST=`get_display_list`
 
 if [ -z "$DISPLIST" ]; then
     #echo "STARTING"
-    vncserver -localhost -noauth -nohttpd  &> /dev/null
+	#TurboVNC args -localhost -noauth -nohttpd
+    /usr/bin/vncserver -localhost yes -SecurityTypes None &> /dev/null
     DISPLIST=`get_display_list`
     if [ -z "$DISPLIST" ]; then
-	echo "ERROR"
-	exit 0;
+		echo "ERROR"
+		exit 0;
     fi
 fi
 
