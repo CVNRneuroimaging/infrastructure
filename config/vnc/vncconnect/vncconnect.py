@@ -13,10 +13,22 @@ from tkinter import ttk
 from tkinter.constants import *
 
 plink = "./plink.exe "
-vnc='"c:/Program Files/TurboVNC/vncviewer.exe " '
+defaultvnc='"c:\\Program Files\\TurboVNC\\vncviewer.exe " '
 vncstartpath="/usr/bin/vncstart.sh"
-
 #vnc='"c:/Program Files/TightVNC/tvnviewer.exe " '
+
+def get_vncviewerpath():
+    try:
+        f = open("vncviewerpath")
+        txt = f.read().strip()
+        vnc='"'+txt+'" ' 
+        f.close()
+        return vnc
+    except:
+        return defaultvnc
+    # end try
+# end def 
+
 
 
 def process_run(conn):
@@ -104,10 +116,15 @@ def setup_tunnel(userhost, passwd, port, localport):
 # end def
 
 def run_vnc(localport):
-    cmd = vnc+" localhost:%i"%localport
-    p = Popen(cmd, stdout = PIPE).pid
-    #stdout, stderr = p.communicate()
-    return ("vncviewer", "ok", localport)
+    vnc=get_vncviewerpath()
+    try:
+        cmd = vnc+" localhost:%i"%localport
+        p = Popen(cmd, stderr=PIPE, stdin=PIPE,stdout = PIPE).pid
+        #stdout, stderr = p.communicate()    
+        return ("vncviewer", "ok", localport)
+    except Exception as e:
+        return ("vncviewer", "error", "couldn't open vncviewer: "+str(e)+"\r\n"+vnc)
+    # end try
 # end def
 
 
@@ -185,7 +202,6 @@ if __name__== "__main__":
                 if o[1] == "ok":
                     status_var.set("tunnel started, starting vncviewer %i"%o[2])
                     parent_conn.send(("vncviewer",o[3]))
-
                 else:
                     status_var.set("error starting tunnel"%disp)
                 # end if    
@@ -194,7 +210,7 @@ if __name__== "__main__":
                     root.withdraw()
                     root.quit()
                 else:
-                    status_var.set("error starting vncviewer")
+                    status_var.set("error: %s"%o[2])
                 # end if
             # end if
         # end while
@@ -246,10 +262,9 @@ if __name__== "__main__":
     frame = ttk.Frame(root, relief=FLAT, borderwidth=20, padding=(5, 5, 5, 5))
     frame.grid(column = 0, row=0)
     l = ttk.Label(frame, text="login (user@host):", font=("sans", 10))
-    l.grid(column=0, row=0)
+    l.grid(column=0, row=0, ipady=10, ipadx=10, sticky=(W))
     e = ttk.Combobox(frame, textvariable=user_var, values=hosts)
-
-    e.grid(column=1, row=0, ipadx=40)
+    e.grid(column=1, row=0, ipadx=40, sticky=(E))
 
 
     
@@ -277,7 +292,7 @@ if __name__== "__main__":
     root.bind('<KeyPress>', esc_keypress)    
 
     l = ttk.Label(frame, textvariable=status_var, font=("sans", 10, "bold"))
-    status_var.set("Idle")
+    status_var.set("Ready")
     l.grid(column=0, row=3, columnspan=2, ipady=10)
 
     root.mainloop()
