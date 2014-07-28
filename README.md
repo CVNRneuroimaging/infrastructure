@@ -18,5 +18,6 @@ Infrastructure aside, projects receiving scientific support from Neuroimaging Co
 - https://github.com/stowler/proj.bh.fmri.qc
 - https://github.com/stowler/proj.mh.cda2.omt
 - https://github.com/stowler/proj.zz.vbm.2014
+- https://github.com/stowler/proj.ag.diss.r21ad
 
 (Project list updated 20140727, more to come as I migrate them to GitHub. -stowler)
