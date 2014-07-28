@@ -11,9 +11,12 @@ Core users: please submit trouble tickets by clicking the green "New Issue" butt
 
 Looking for actual science?
 ===============================
-Infrastructure aside, projects receiving scientific support from Neuroimaging Core salaries can be followed here (updated 20140727, more to come as I migrate them to GitHub. -stowler):
+Infrastructure aside, projects receiving scientific support from Neuroimaging Core salaries can be followed here :
+
 - https://github.com/stowler/proj.stran.thesis
 - https://github.com/stowler/proj.bc.levydiss
 - https://github.com/stowler/proj.bh.fmri.qc
 - https://github.com/stowler/proj.mh.cda2.omt
 - https://github.com/stowler/proj.zz.vbm.2014
+
+(Project list updated 20140727, more to come as I migrate them to GitHub. -stowler)
