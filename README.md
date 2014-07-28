@@ -1,4 +1,4 @@
-This public repository tracks *IT and operations* for the Neuroimaging Core @ Atlanta VA CVNR / Emory University Department of Neurology. Until project portfolio management is implemented elsewhere, this repo centralizes our non-sensitive ops data:
+This public repository tracks *IT and operations* (i.e., not science) for the Neuroimaging Core @ Atlanta VA CVNR / Emory University Department of Neurology. Until project portfolio management is implemented elsewhere, this repo centralizes our non-sensitive ops data:
   - issue tracking
   - system documentation for workstations, servers, and VMs
   - budgeting and forecasting
