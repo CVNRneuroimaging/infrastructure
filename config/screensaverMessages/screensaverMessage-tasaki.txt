@@ -1,0 +1,16 @@
+=== PLEASE DO NOT INTERRUPT POWER OR NETWORK ===
+(data analysis in progress)
+
+hostname: tasaki.birc.emory.edu
+network: gigE to Emory secure device VLAN
+wireles: off
+
+SECURITY:
+password-protected BIOS
+FIPS 140-2 whole-disk encrypted
+zero remote directory accounts (AD, LDAP, etc.)
+one local account: stowler-local
+
+Contact: Stephen Towler
+mobile: 352-358-1110
+stowler@gmail.com

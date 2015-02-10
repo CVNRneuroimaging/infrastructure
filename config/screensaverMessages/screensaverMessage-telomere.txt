@@ -1,0 +1,15 @@
+=== PLEASE DO NOT INTERRUPT POWER OR NETWORK ===
+(data analysis in progress)
+
+hostname: telomere.birc.emory.edu
+wired network: gigE to Emory secure device VLAN
+wireless: off
+
+SECURITY:
+password-protected BIOS
+FIPS 140-2 whole-disk encrypted
+zero remote directory accounts (AD, LDAP, etc.)
+
+Contact: Keith McGregor
+mobile: 352-359-8084
+email: keith.mcgregor@emory.edu
