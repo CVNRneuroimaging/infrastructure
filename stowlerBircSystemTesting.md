@@ -11,15 +11,19 @@ _Tests and changes I made on Keith's installed BIRC systems in preparation for g
 - missing FBIRN QA software
 - missing freesurfer
 - missing mricrogl
-- broken fsl 
-- broken itksnap3
-- very old afni
-- where are you managing system-wide $PATH changes?
-- /opt is empty...where are you installing non-apt software? (like MRIcroGL)
+- broken fsl
+      - please document install steps that led to this so they can be reversed
+- broken itksnap3 
+      - please document install steps that led to this so they can be reversed
+- very old afni (Dec 2014)
+- please document: where are you managing system-wide $PATH changes?
+- please document: /opt is empty...where are you installing non-apt software? (like MRIcroGL)
+- is there a reason qball4 and VM image have different lsb?
 
 
 **To-be-propagated** list for Keith and Rob (details for each follow):
 - updates from current apt sources
+      - master image "BIRC-081015" which has 438 out-of-date packages, including 223 security updates
 - sudo apt-get install aptitude vim tree
 - upgrade git to > 2.0
 - install mr
@@ -27,12 +31,15 @@ _Tests and changes I made on Keith's installed BIRC systems in preparation for g
 
 
 
-## qball4 tests and resolutions
+## qball4 and VM image "BIRC-081015" tests and resolutions
 
 ```bash
 ###########################################################
 # confirm platform:
 ###########################################################
+
+###### qball4: ######
+
 $ uname -a
 Linux qball4.birc.emory.edu 3.13.0-39-generic #66-Ubuntu SMP Tue Oct 28 13:30:27 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
 
@@ -46,9 +53,30 @@ Codename:   trusty
 $ echo $PATH
 /net/stephentowler/src.mywork.gitRepos/brainwhere:/net/stephentowler/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 
+
+###### image "BIRC-081015": ######
+
+$ uname -a
+Linux stemcell 3.13.0-45-generic #74-Ubuntu SMP Tue Jan 13 19:36:28 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+
+$ lsb_release -a
+LSB Version:   core-2.0-amd64:core-2.0-noarch:core-3.0-amd64:core-3.0-noarch:core-3.1-amd64:core-3.1-noarch:core-3.2-amd64:core-3.2-noarch:core-4.0-amd64:core-4.0-noarch:core-4.1-amd64:core-4.1-noarch:security-4.0-amd64:security-4.0-noarch:security-4.1-amd64:security-4.1-noarch
+Distributor ID:   Ubuntu
+Description:   Ubuntu 14.04.2 LTS
+Release: 14.04
+Codename:   trusty
+
+$ echo $PATH
+/net/stephentowler/src.mywork.gitRepos/brainwhere:/net/stephentowler/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+
+
+
 ###########################################################
 # what installed packages are currently out-of-date compared to apt repos?
 ###########################################################
+
+###### qball4: ######
+
 $ sudo apt-get update
 
 $ /usr/lib/update-notifier/apt-check --human-readable
@@ -64,16 +92,47 @@ linux-firmware
 
 # ...TBD: confirm w/ Keith and Rob that these aren't intentionally being held in old state
 
+###### image "BIRC-081015": ######
+
+$ sudo apt-get update
+
+$ /usr/lib/update-notifier/apt-check --human-readable
+438 packages can be updated.
+223 updates are security updates.
+
+
 
 ###########################################################
 # install missing command-line utilities
 ###########################################################
+
+###### qball4: ######
 $ sudo apt-get install aptitude vim tree
+
+
+###### image "BIRC-081015": ######
+$ sudo apt-get install aptitude 
+
 
 
 ###########################################################
 # upgrade git to > 2.0 :
 ###########################################################
+
+###### qball4: ######
+
+$ git --version
+git version 1.9.1    # need git > 2.0
+$ sudo apt-add-repository ppa:git-core/ppa
+$ sudo apt-get update
+$ sudo apt-get install git
+$ git --version
+git version 2.5.0
+
+
+
+###### image "BIRC-081015": ######
+
 $ git --version
 git version 1.9.1    # need git > 2.0
 $ sudo apt-add-repository ppa:git-core/ppa
