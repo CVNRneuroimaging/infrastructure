@@ -7,13 +7,14 @@ _Tests and changes I made on Keith's installed BIRC systems in preparation for g
 # Wed, 20150922
 
 **To-be-fixed** list for Keith and Rob (details for each follow):
+- broken fsl
+      - please document install steps that led to this so they can be reversed
 - missing matlab 
 - missing FBIRN QA software
 - missing freesurfer
 - missing mricrogl
-- broken fsl
-      - please document install steps that led to this so they can be reversed
-- broken itksnap3 
+- missing itksnap3 on VM image "BIRC-081015"
+- broken  itksnap3 on qball4
       - please document install steps that led to this so they can be reversed
 - very old afni (Dec 2014)
 - please document: where are you managing system-wide $PATH changes?
@@ -152,6 +153,19 @@ $ ln -s ~/src.upstream.gitRepos/vcsh/vcsh ~/bin/
 ###########################################################
 # install mr
 ###########################################################
+
+###### qball4: ######
+
+$ cd /tmp
+$ git clone git://myrepos.branchable.com/myrepos
+$ cd myrepos/
+$ sudo make install
+$ which mr
+/usr/bin/mr
+
+
+###### image "BIRC-081015": ######
+
 $ cd /tmp
 $ git clone git://myrepos.branchable.com/myrepos
 $ cd myrepos/
@@ -163,7 +177,10 @@ $ which mr
 ###########################################################
 # sync mr (my $HOME only...no action needed from Keith/Rob)
 ###########################################################
-# vcsh repos failed because of existing files:
+
+###### qball4: ######
+
+# vcsh repos failed because of existing files from hippostore days:
 # vcsh-sdt-bash
 # vcsh-sdt-iterm2
 # vcsh-sdt-tmux
@@ -185,6 +202,7 @@ mr up
 mr up
 
 
+
 ###########################################################
 # terminal colors: (my $HOME only...nothing needed from Keith/Rob)
 ###########################################################
@@ -193,26 +211,49 @@ mr up
 eval `dircolors ~/src.upstream.gitRepos/dircolors-solarized/dircolors.256dark`
 
 
+
 ###########################################################
 # R (TBD version and libraries)
 ###########################################################
+
+###### qball4: ######
+
+$ R --version
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+###### image "BIRC-081015": ######
+
 $ R --version
 R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
 Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 
+
 ###########################################################
 # MATLAB (TBD: install matlab)
 ###########################################################
+
+###### qball4: ######
+
 $ matlab
 matlab: command not found
+
+###### image "BIRC-081015": ######
+$ matlab
+matlab: command not found
+
 
 
 ###########################################################
 # itksnap
 ###########################################################
-# itksnap runs but itksnap3 crashes (only tested over ssh):
+
+###### qball4: ######
+
+# itksnap launches but itksnap3 crashes (only tested over ssh):
 $ ls -al /usr/bin/
 -rwxr-xr-x 1 root root 11649472 May 30  2012 /usr/bin/itksnap
 -rwxr-xr-x 1 root root    77577 Aug  6 16:13 /usr/bin/itksnap3
@@ -220,11 +261,34 @@ $ ls -al /usr/bin/
 $ itksnap3
 Error converting runtime path entry "/usr/bin/../lib/snap-3.2.0" to real path: No such file or directory
 
+###### image "BIRC-081015": ######
+
+# itksnap launches, but itksnap3 isn't installed
+$ itksnap3
+No command 'itksnap3' found, did you mean:
+ Command 'itksnap' from package 'itksnap' (universe)
+itksnap3: command not found
+
+
 
 ###########################################################
 # FSL (TBD: fix fsl)
 ###########################################################
-# looks like FSL is only partially installed on Keith/Rob's image:
+# looks like FSL is only partially installed on Keith/Rob's image and qball4:
+
+###### qball4: ######
+
+$ echo $FSLDIR # (nothing returned)
+
+$ fslmaths
+fslmaths: command not found
+
+$ which fslview
+/usr/bin/fslview
+
+
+###### image "BIRC-081015": ######
+
 $ echo $FSLDIR # (nothing returned)
 
 $ fslmaths
@@ -262,26 +326,51 @@ TBD: test after FSL and matlab are fixed
 # AFNI
 ###########################################################
 # Installed AFNI is super old:
+
+###### qball4: ######
+
 $ afni --version
 Precompiled binary =Debian-x86_64-1-gnu: Dec 26 2014 (Version AFNI_2011_12_21_1014)
 
-TBD: update AFNI and test further
+###### image "BIRC-081015": ######
+
+$ afni --version
+Precompiled binary =Debian-x86_64-1-gnu: Dec 26 2014 (Version AFNI_2011_12_21_1014)
+
+
+# TBD: update AFNI and test further
 
 
 ###########################################################
 # FBIRN tools
 ###########################################################
+
+###### qball4: ######
 # FBIRN BXH/XCEDE tools are missing:
+
 $ fmriqa_generate.pl
 fmriqa_generate.pl: command not found
 
 $ dicom2bxh
 dicom2bxh: command not found
 
+###### image "BIRC-081015": ######
+# FBIRN tools are installed:
+$ which fmriqa_generate.pl
+/usr/local/bin/fmriqa_generate.pl
+
+$ which dicom2bxh
+/usr/local/bin/dicom2bxh
+
+# TBD: test fmriqa_generate after afni and fsl are fixed
+
 
 ###########################################################
 # FreeSurfer
 ###########################################################
+
+###### qball4: ######
+
 $ recon-all
 recon-all: command not found
 
@@ -293,16 +382,46 @@ No command 'freeview' found, did you mean:
 $ echo $FREESURFER_HOME # no value returned
 $ echo $SUBJECTS_DIR    # no value returned
 
+###### image "BIRC-081015": ######
+
+$ recon-all
+recon-all: command not found
+
+$ freeview
+No command 'freeview' found, did you mean:
+ Command 'treeview' from package 'treeview' (multiverse)
+ freeview: command not found
+
+$ echo $FREESURFER_HOME # no value returned
+$ echo $SUBJECTS_DIR    # no value returned
+
+# TBD: test after it gets installed
 
 ###########################################################
 # MRIcron
 ###########################################################
+
+###### qball4: ######
+
 # it's installed and launches without error:
 $ which mricron
 /usr/bin/mricron
 
 $ dpkg -S /usr/bin/mricron
 mricron: /usr/bin/mricron
+
+
+###### image "BIRC-081015": ######
+
+# it's installed and launches without error:
+$ which mricron
+/usr/bin/mricron
+
+$ dpkg -S /usr/bin/mricron
+mricron: /usr/bin/mricron
+
+
+
 
 #TBD: test actual image display
 
