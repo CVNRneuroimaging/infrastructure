@@ -2,7 +2,7 @@
 
 _ongoing install/config/testing..._
 
-# confirm platform after upgrade to 14.04
+# confirmed environment after upgrade to 14.04
 
 ```bash
 $ uname -a
@@ -20,7 +20,7 @@ $ echo $PATH
 ```
 
 
-# confirm git
+# confirmed git
 
 ```bash
 $ git --version
@@ -34,7 +34,7 @@ push.default=simple
 ```
 
 
-# confirm/upgrade vcsh/mr
+# confirmed/upgraded vcsh/mr
 
 ```bash
 $ which vcsh | xargs ls -al
@@ -63,7 +63,7 @@ $ mr up
 ```
 
 
-# confirm general command-line utilities
+# confirmed general command-line utilities
 
 ```bash
 $ which curl wget tmux tree htop slurm vim aptitude convert
@@ -79,9 +79,9 @@ $ which curl wget tmux tree htop slurm vim aptitude convert
 ```
 
 
-# configure R
+# configured R
 
-Confirm location of currently installed R libraries:
+## confirmed location of currently installed R libraries:
 
 ```
 $ sudo R --no-save
@@ -90,7 +90,7 @@ $ sudo R --no-save
 [3] "/usr/lib/R/library"
 ```
 
-Get rid of the outdated R packages:
+## removed outdated R packages:
 
 ```bash
 $ sudo apt-get autoremove r-base r-base-core r-base-dev r-doc-html
@@ -100,7 +100,8 @@ $ sudo rm -fr /usr/local/lib/R/site-library /usr/lib/R/site-library /usr/lib/R/l
 
 ```
 
-Updated repos per R Ubuntu [README](http://cran.r-project.org/bin/linux/ubuntu/README.html):
+## updated apt sources and packages
+...per R Ubuntu [README](http://cran.r-project.org/bin/linux/ubuntu/README.html):
 
 ```bash
 # added the secure apt key:
@@ -133,7 +134,7 @@ After this operation, 56.6 MB of additional disk space will be used.
 Do you want to continue? [Y/n] Y
 ```
 
-Updated the installed packages from within R:
+## updated the installed packages from within R:
 
 ```
 sudo R --no-save
@@ -141,7 +142,7 @@ update.packages(ask=FALSE, repos='http://cran.stat.ucla.edu')
 q()
 ```
 
-Installed R deps:
+## installed R deps:
 
 ```bash
 # rgl dependencies from apt sources:
@@ -155,7 +156,7 @@ sudo R CMD javareconf
 sudo apt-get install libgmp-dev libmpfr-dev
 ```
 
-Compiled R packages and dependencies:
+## compiled R packages and dependencies:
 
 ```
 sudo R --no-save
@@ -168,7 +169,7 @@ install.packages('RcmdrPlugin.HH', dependencies=TRUE, repos='http://cran.stat.uc
 ```
 
 
-Tested R 3D and GUI toolkits:
+## tested R 3D and GUI toolkits:
 
 ```
 $ sudo R --no-save
