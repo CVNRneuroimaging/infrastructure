@@ -1,6 +1,6 @@
 # stowler BIRC system config: pano.birc.emory.edu on 20150818
 
-_More install/config/testing to be done but this is what I completed today._
+_ongoing install/config/testing..._
 
 # confirm platform after upgrade to 14.04
 
@@ -59,7 +59,7 @@ install -m0644 mr.1 /usr/share/man/man1/
 install -m0644 webcheckout.1 /usr/share/man/man1/
 install -m0644 lib/* /usr/share/mr/
 
-mr up
+$ mr up
 ```
 
 
@@ -81,11 +81,111 @@ $ which curl wget tmux tree htop slurm vim aptitude convert
 
 # configure R
 
+Confirm location of currently installed R libraries:
+
+```
+$ sudo R --no-save
+> .libPaths()
+[1] "/usr/local/lib/R/site-library" "/usr/lib/R/site-library"
+[3] "/usr/lib/R/library"
+```
+
+Get rid of the outdated R packages:
+
 ```bash
+$ sudo apt-get autoremove r-base r-base-core r-base-dev r-doc-html
+# ...after which I ran aptitude to detect and resolve any conflicts created by that command
+
+$ sudo rm -fr /usr/local/lib/R/site-library /usr/lib/R/site-library /usr/lib/R/library
 
 ```
 
-# confirm matlab
+Updated repos per R Ubuntu [README](http://cran.r-project.org/bin/linux/ubuntu/README.html):
+
+```bash
+# added the secure apt key:
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+
+# added this line to /etc/apt/sources.list:
+# deb http://cran.stat.ucla.edu/bin/linux/ubuntu trusty/
+
+$ sudo apt-get update
+$ sudo apt-get install r-base r-base-dev
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following extra packages will be installed:
+  r-base-core r-base-html r-cran-boot r-cran-class r-cran-cluster
+  r-cran-codetools r-cran-foreign r-cran-kernsmooth r-cran-lattice r-cran-mass
+  r-cran-matrix r-cran-mgcv r-cran-nlme r-cran-nnet r-cran-rpart
+  r-cran-spatial r-cran-survival r-recommended
+Suggested packages:
+  ess r-doc-info r-doc-pdf r-mathlib texlive-fonts-recommended
+  texlive-fonts-extra texinfo
+The following NEW packages will be installed:
+  r-base r-base-core r-base-dev r-base-html r-cran-boot r-cran-class
+  r-cran-cluster r-cran-codetools r-cran-foreign r-cran-kernsmooth
+  r-cran-lattice r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme r-cran-nnet
+  r-cran-rpart r-cran-spatial r-cran-survival r-recommended
+0 upgraded, 20 newly installed, 0 to remove and 1 not upgraded.
+Need to get 36.2 MB of archives.
+After this operation, 56.6 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+```
+
+Updated the installed packages from within R:
+
+```
+sudo R --no-save
+update.packages(ask=FALSE, repos='http://cran.stat.ucla.edu')
+q()
+```
+
+Installed R deps:
+
+```bash
+# rgl dependencies from apt sources:
+sudo apt-get install xserver-xorg-dev libx11-dev libglu1-mesa-dev mesa-utils glew-utils
+
+# Rcmdr dependencies from apt sources:
+sudo apt-get install default-jre default-jdk unixodbc-dev
+sudo R CMD javareconf
+
+# RcmdrPlugin.HH dependencies from apt sources:
+sudo apt-get install libgmp-dev libmpfr-dev
+```
+
+Compiled R packages and dependencies:
+
+```
+sudo R --no-save
+install.packages('rgl',            dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+install.packages('car',            dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+install.packages('XLConnect',      dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+install.packages('Rcmdr',          dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+install.packages('RcmdrPlugin.HH', dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+
+```
+
+
+Tested R 3D and GUI toolkits:
+
+```
+$ sudo R --no-save
+> library(rgl)
+> demo(rgl)
+> library(car)
+> library(Rcmdr)
+# mouse:
+#     1) Tools -> Load Rcmdr plug-ins... -> RcmdrPlugin.HH
+#     2) Data -> Data in packages -> Read data set from an attached package... -> PACKAGE: datasets, DATA SET: mtcars
+#     3) Data set: mtcars
+#     4) Graphs -> 3d graph -> 3d scatterplot... (HH). DV: mpg, IVs: disp, hp.
+#     5) Graphs -> 3d graph -> Identify observations with mouse...
+```
+
+
+# confirmed matlab
 
 ```
 >> ver
