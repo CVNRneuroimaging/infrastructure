@@ -208,4 +208,81 @@ Statistics and Machine Learning Toolbox               Version 10.0       (R2015a
 >> 
 ```
 
+# tested FSL
 
+Looks like all FSL packages have been installed via neurodebian apt:
+
+```bash
+$ apt list --installed | grep fsl
+
+WARNING: apt does not have a stable CLI interface yet. Use with caution in scripts.
+
+e2fslibs/trusty-updates,trusty-security,now 1.42.9-3ubuntu1.2 amd64 [installed]
+fsl/now 5.0.8-3~nd12.04+1 all [installed,local]
+fsl-5.0/now 5.0.8-3~nd12.04+1 all [installed,local]
+fsl-5.0-complete/now 5.0.7-1~nd12.04+1 all [installed,local]
+fsl-5.0-core/now 5.0.8-3~nd12.04+1 amd64 [installed,local]
+fsl-atlases/now 5.0.7-1 all [installed,local]
+fsl-bangor-cerebellar-atlas/now 5.0.7-1 all [installed,local]
+fsl-complete/now 5.0.7-1~nd12.04+1 all [installed,local]
+fsl-core/now 5.0.8-3~nd12.04+1 all [installed,local]
+fsl-feeds/now 5.0.4-1 all [installed,local]
+fsl-first-data/now 5.0.7-1 all [installed,local]
+fsl-harvard-oxford-atlases/now 5.0.7-1 all [installed,local]
+fsl-harvard-oxford-cortical-lateralized-atlas/now 5.0.7-1 all [installed,local]
+fsl-jhu-dti-whitematter-atlas/now 5.0.7-1 all [installed,local]
+fsl-juelich-histological-atlas/now 5.0.7-1 all [installed,local]
+fsl-mni-structural-atlas/now 5.0.7-1 all [installed,local]
+fsl-mni152-templates/now 5.0.7-1 all [installed,local]
+fsl-neurosynth-atlas/now 0.0.20130328-1 all [installed,local]
+fsl-neurosynth-top100-atlas/now 0.0.20130328-1 all [installed,local]
+fsl-oxford-striatal-atlas/now 5.0.7-1 all [installed,local]
+fsl-oxford-thalamic-connectivity-atlas/now 5.0.7-1 all [installed,local]
+fsl-possum-data/now 5.0.7-1 all [installed,local]
+fsl-resting-connectivity-parcellation-atlases/now 5.0.7-1 all [installed,local]
+fsl-subthalamic-nucleus-atlas/now 5.0.7-1 all [installed,local]
+fsl-talairach-daemon-atlas/now 5.0.7-1 all [installed,local]
+fslview/now 4.0.1-2~nd12.04+1 amd64 [installed,local]
+fslview-doc/now 4.0.1-2~nd12.04+1 all [installed,local]
+```
+
+FSL initialization script is still present in `/etc/bash.bashrc`: `. /etc/fsl/5.0/fsl.sh`. FSL environmental variables still active:
+
+```bash
+$ echo $FSLDIR
+/usr/share/fsl/5.0
+```
+
+
+Adjusted file/dir permissions, extracted FSL FEEDS:
+
+```bash
+sudo chmod -R a+r /data/backup/Atlanta/stowlerWIP/neuroSoftware
+sudo mkdir /data/panolocal/tempStowler
+sudo chown stowler-local /data/panolocal/tempStowler
+cd /data/panolocal/tempStowler
+tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
+```
+
+Ran fsl self-test on external drive mounted as `/data/panolocal`:
+
+```bash
+$ cat /etc/mtab | grep panolocal
+/dev/sdb1 /data/panolocal ext4 rw 0 0
+cd  /data/panolocal/tempStowler/feeds
+# remove "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
+
+[05:03:31]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler/feeds]
+$ /usr/bin/time ./RUN all
+```
+
+TBD: Ran fsl self-test on internal drive:
+
+```bash
+mkdir /tmp/stowlerFeeds
+cd /tmp/stowlerFeeds
+tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
+cd feeds
+# remove "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
+
+```
