@@ -270,19 +270,59 @@ Ran fsl self-test on external drive mounted as `/data/panolocal`:
 $ cat /etc/mtab | grep panolocal
 /dev/sdb1 /data/panolocal ext4 rw 0 0
 cd  /data/panolocal/tempStowler/feeds
-# remove "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
+# removed "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
 
 [05:03:31]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler/feeds]
 $ /usr/bin/time ./RUN all
+
+
+FSL Evaluation and Example Data Suite v5.0.8
+
+start time = Tue Aug 18 17:03:37 EDT 2015
+hostname = pano.birc.emory.edu
+os = Linux pano.birc.emory.edu 3.13.0-61-generic #100-Ubuntu SMP Wed Jul 29 11:21:34 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+
+
+/bin/rm -rf /data/panolocal/tempStowler/feeds/results ; mkdir /data/panolocal/tempStowler/feeds/results
+
+# ...snip...
+
+All tests passed
+
+end time = Tue Aug 18 17:31:25 EDT 2015
+
+1461.02user 17.92system 27:47.72elapsed 88%CPU (0avgtext+0avgdata 986152maxresident)k
+2504inputs+1055408outputs (11major+4263099minor)pagefaults 0swaps
 ```
 
-TBD: Ran fsl self-test on internal drive:
+
+Ran fsl self-test on internal drive to confirm that we're not handicapping ourselves with speed of external drive:
 
 ```bash
 mkdir /tmp/stowlerFeeds
 cd /tmp/stowlerFeeds
 tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
 cd feeds
-# remove "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
+# removed "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
 
+[06:35:05]-[stowler-local]-at-[pano]-in-[/tmp/stowlerFeeds/feeds]
+$ /usr/bin/time ./RUN all
+
+FSL Evaluation and Example Data Suite v5.0.8
+
+start time = Tue Aug 18 18:35:18 EDT 2015
+hostname = pano.birc.emory.edu
+os = Linux pano.birc.emory.edu 3.13.0-61-generic #100-Ubuntu SMP Wed Jul 29 11:21:34 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+
+
+/bin/rm -rf /tmp/stowlerFeeds/feeds/results ; mkdir /tmp/stowlerFeeds/feeds/results
+
+# ...snip...
+
+All tests passed
+
+end time = Tue Aug 18 19:03:05 EDT 2015
+
+1460.89user 17.78system 27:46.81elapsed 88%CPU (0avgtext+0avgdata 986152maxresident)k
+0inputs+1055360outputs (0major+4285392minor)pagefaults 0swaps
 ```
