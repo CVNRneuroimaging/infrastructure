@@ -1,6 +1,6 @@
 # stowler BIRC system config: pano.birc.emory.edu on 20150818
 
-_ongoing install/config/testing..._
+_More config and testing to be done, but this is what I completed today._
 
 # confirmed environment after upgrade to 14.04
 
@@ -325,4 +325,70 @@ end time = Tue Aug 18 19:03:05 EDT 2015
 
 1460.89user 17.78system 27:46.81elapsed 88%CPU (0avgtext+0avgdata 986152maxresident)k
 0inputs+1055360outputs (0major+4285392minor)pagefaults 0swaps
+```
+
+# installed FSL FIX
+
+Download and untar FIX:
+```bash
+$ wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix.tar.gz
+--2015-08-18 19:25:19--  http://www.fmrib.ox.ac.uk/~steve/ftp/fix.tar.gz
+Resolving www.fmrib.ox.ac.uk (www.fmrib.ox.ac.uk)... 129.67.242.50
+Connecting to www.fmrib.ox.ac.uk (www.fmrib.ox.ac.uk)|129.67.242.50|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: http://users.fmrib.ox.ac.uk/~steve/ftp/fix.tar.gz [following]
+--2015-08-18 19:25:19--  http://users.fmrib.ox.ac.uk/~steve/ftp/fix.tar.gz
+Resolving users.fmrib.ox.ac.uk (users.fmrib.ox.ac.uk)... 163.1.84.25
+Connecting to users.fmrib.ox.ac.uk (users.fmrib.ox.ac.uk)|163.1.84.25|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 2416375290 (2.2G) [application/x-tar]
+Saving to: ‘fix.tar.gz’
+
+100%[============================================================================================================================================>] 2,416,375,290 1.35MB/s   in 29m 8s
+
+2015-08-18 19:54:28 (1.32 MB/s) - ‘fix.tar.gz’ saved [2416375290/2416375290]
+
+$ tar -zxvf fix.tar.gz
+# ...unarchives contents into new directory "fix1.06"
+
+```
+
+Installed R packages listed in the tarball's README:
+
+```bash
+$ sudo R --no-save
+> install.packages("kernlab",      dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("ROCR",         dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("class",        dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("party",        dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("e1071",        dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("randomForest", dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+```
+
+Edited `settings.sh` to reflect pano's configuration:
+```bash
+FSL_FIX_MATLAB_MODE=1 # Matlab script mode
+FSL_FIX_MATLAB_ROOT=/opt/MATLAB/R2015a
+```
+
+Moved fix to `/opt`:
+```bash
+$ sudo mv fix1.06 /opt/fix1.062
+$ sudo rm -f /opt/fix
+$ sudo ln -s /opt/fix1.062 /opt/fix
+```
+
+Confirmed names of pre-trained datasets:
+```bash
+$ find /opt/fix/* | grep -i rdata
+/opt/fix/training_files/WhII_Standard.RData
+/opt/fix/training_files/Standard.RData
+/opt/fix/training_files/UKBiobank.RData
+/opt/fix/training_files/HCP_hp2000.RData
+/opt/fix/training_files/WhII_MB6.RData
+```
+
+Added FIX to environment (e.g., $FSL_FIXDIR) and system-wide $PATH via /etc/bash.bashrc:
+```bash
+export PATH=/opt/fix:${PATH}
 ```
