@@ -139,7 +139,7 @@ _Bottom line: 1) No unexpected interactions between epi2struct and struct2std me
 
 ## inspected melodic components 
 
-_Visually inspected 132 melodic components: 12 melodic runs (from melFeeds above) X 11 components. This confimed that each of the 11 inspected components were detected in all 12 melodic runs, though compontent order differed among runs, which is to be expected even without the variability introduced by registration technique._
+_Visually inspected 132 melodic components: 12 melodic runs (from melFromFeeds above) X 11 components. This confimed that each of the 11 inspected components were detected in all 12 melodic runs, though compontent order differed among runs, which is to be expected even without the variability introduced by registration technique._
 
 I visually inspected the 12 ICA outputs with temporal domain as primary, freq domain and space as secondary. Found that the first three components are temporally identical across all 12 registration methods, with minor spatial differences in suprathreshold voxel memberships.
 
@@ -176,3 +176,40 @@ $ sudo aptitude
 $ sudo shutdown -r now
 ```
 
+# tested FIX 
+
+Copied two MELODIC output directories to `/tmp` for initial testing under three FIX variations: thresholds of 20, 18, and 16:
+
+```bash
+$ mkdir /tmp/fixThresh20
+$ cd /data/panolocal/tempStowler
+$ cp -a melFromFeeds-structBBR-standardNone.ica         /tmp/fixThresh20/
+$ cp -a melFromFeeds-structBBR-standard2mmNonlinear.ica /tmp/fixThresh20/
+$ cp -a /tmp/fixThresh20 /tmp/fixThresh18
+$ cp -a /tmp/fixThresh20 /tmp/fixThresh16
+```
+
+Run FIX serially on two inputs, with three thresholds per input:
+```bash
+$ trainingFile=/opt/fix/training_files/Standard.RData
+
+# first structBBR-standardNone with three different thresholds:
+$ icaRun=melFromFeeds-structBBR-standardNone.ica
+$ thresh=20
+$ /usr/bin/time fix /tmp/fixThresh${thresh}/${icaRun} ${trainingFile} ${thresh} -m
+$ thresh=18
+$ /usr/bin/time fix /tmp/fixThresh${thresh}/${icaRun} ${trainingFile} ${thresh} -m
+$ thresh=16
+$ /usr/bin/time fix /tmp/fixThresh${thresh}/${icaRun} ${trainingFile} ${thresh} -m
+# elapsed times: 8:28.42 , 8:46.81 , and 8:27.57
+
+# ...then structBBR-standard2mmNonlinear with three different thresholds:
+icaRun=melFromFeeds-structBBR-standard2mmNonlinear.ica
+$ thresh=20
+$ /usr/bin/time fix /tmp/fixThresh${thresh}/${icaRun} ${trainingFile} ${thresh} -m
+$ thresh=18
+$ /usr/bin/time fix /tmp/fixThresh${thresh}/${icaRun} ${trainingFile} ${thresh} -m
+$ thresh=16
+$ /usr/bin/time fix /tmp/fixThresh${thresh}/${icaRun} ${trainingFile} ${thresh} -m
+# elapsed times: 7:04.74, 7:05.77 , 7:05.79
+```
