@@ -1,6 +1,6 @@
 # stowler BIRC system config: pano.birc.emory.edu on 20150819
 
-_config and testing in progress..._
+_More config and testing to be done, but this is what I completed today._
 
 # tested melodic in preparation for testing FIX
 
