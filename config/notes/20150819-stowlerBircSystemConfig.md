@@ -2,13 +2,13 @@
 
 _config and testing in progress..._
 
-# tested Melodic in prep for testing FIX
+# tested melodic in preparation for testing FIX
 
-Testing Melodic using FSL FEED's `fmri.nii.gz`, `structural.nii.gz`, and `structural_brain.nii.gz`.
+_Bottom line: no unexpected output from MELODIC on 14.04. Produced 12 unique datasets for FIX from FSL FEEDS `fmri.nii.gz`, `structural.nii.gz`, and `structural_brain.nii.gz`._
 
 For remote monitoring without web browser (i.e., "Progress Watcher" off in Melodic GUI), using my script [bwMelodicProgress.sh](https://github.com/stowler/brainwhere/blob/master/bwMelodicProgress.sh).
 
-## tested melodic with no registration to standard template
+## ran melodic with no registration to standard template
 
 Iterating over epi2struct registration methods: 6 dof, 7 dof, 12 dof, or BBR.
 
@@ -35,7 +35,7 @@ Finished at Wed Aug 19 08:48:48 EDT 2015
 
 ```
 
-## tested melodic with linear only registration to standard template
+## ran melodic with linear only registration to standard template
 
 Iterating over epi2struct registration methods: 6 dof, 7 dof, 12 dof, or BBR.
 
@@ -61,7 +61,7 @@ Started at Wed Aug 19 09:40:26 EDT 2015
 Finished at Wed Aug 19 09:55:01 EDT 2015
 ```
 
-## tested melodic with nonlinear registration to standard template
+## ran melodic with nonlinear registration to standard template
 
 Iterating over epi2struct registration methods: 6 dof, 7 dof, 12 dof, or BBR.
 
@@ -124,9 +124,32 @@ $ du -sh /tmp/melFromFeeds-*
 $ mv /tmp/melFromFeeds-* /data/panolocal/tempStowler/
 ```
 
+## inspected melodic registrations 
+
+_Bottom line: 1) No unexpected interactions between epi2struct and struct2std methods. 2) As expected BBR + nonlinear reg produced best result. 3) Unexpected: 7dof worse than 12 and 6._
+
+- epi2struct ("example_func to highres")
+   - SANITY CHECK: no, not affected by choice of struct2std method
+   - as expected, 12dof better than 6 or 7 (7 worst...has some roll and translation relative to others)
+   - alignment of internal structures: BBR > 12dof
+   - alignment of external boundaries: BBR > 12dof
+- struct2std ("highres to standard")
+   - SANITY CHECK: no, not affected by choice of epi2struct method
+   - nonlinear reg produced fewer structural voxels outside of standard mask than linear reg did 
+
+## inspected melodic components 
+
+_Visually inspected 132 melodic components: 12 melodic runs (from melFeeds above) X 11 components. This confimed that each of the 11 inspected components were detected in all 12 melodic runs, though compontent order differed among runs, which is to be expected even without the variability introduced by registration technique._
+
+I visually inspected the 12 ICA outputs with temporal domain as primary, freq domain and space as secondary. Found that the first three components are temporally identical across all 12 registration methods, with minor spatial differences in suprathreshold voxel memberships.
+
+Numbering components 4 through 10 and 22 according to their order in the melodic output from structBBR-standard2mmNonlinear, I confirmed that each of the remaining eight components were detected in the other 11 melodic runs, noting the variability in component order in [this spreadsheet][] "melodic ICA component consistency across registration technique".
+
+[this spreadsheet]: https://docs.google.com/spreadsheets/d/1HaL5tTo4QJFgPWm8YkN_l3rYkZSHbKsh_M75eziGEJw/edit?usp=sharing
+
 # updated pano and rebooted
 
-_yesterday pano had a number of updates that require rebooting...held until I heard from Keith that he hadn't already configured automount of /data/panolocal_
+_yesterday pano had a number of updates that required rebooting...held reboot until I heard from Keith that he hadn't already configured automount of /data/panolocal_
 
 ```bash
 $ sudo apt-get update
