@@ -3,6 +3,54 @@
 _...config and testing in progress..._
 - _TBD: fix pano's CTRL-ALT-DEL problem_
 
+
+# pano: missing unlock box for username/password
+
+Locked pano's desktop when I left last night, and now console shows wallpaper and responsive mouse but no login box. No problems connecting to existing tmux sessions via ssh, but I need access to the GUI app states from yesterday.
+
+Moved data from /tmp and rebooted:
+```bash
+[11:49:13]-[stowler-local]-at-[pano]-in-[~/src.mywork.gitRepos/infrastructure/config/testMelodic] on master [?]
+$ du -sh /tmp/fixThresh*
+1.2G    /tmp/fixThresh16
+1.2G    /tmp/fixThresh18
+1.2G    /tmp/fixThresh20
+
+[11:50:33]-[stowler-local]-at-[pano]-in-[~/src.mywork.gitRepos/infrastructure/config/testMelodic] on master [?]
+$ cd /tmp
+
+[11:50:44]-[stowler-local]-at-[pano]-in-[/tmp]
+$ mv fixThresh* /data/panolocal/tempStowler/
+
+[11:51:29]-[stowler-local]-at-[pano]-in-[/tmp]
+$ sync
+
+[11:55:50]-[stowler-local]-at-[pano]-in-[/tmp]
+$ sudo shutdown -r now
+```
+
+Didn't help. Apparently as of 14.04 ubuntu isn't using xscreensaver [anymore](http://xubuntu.org/news/screen-locking-in-xubuntu-14-04/), so :
+```bash
+[12:23:22]-[stowler-local]-at-[pano]-in-[~]
+$ sudo apt-get autoremove xscreensaver xscreensaver-data xscreensaver-gl
+
+# resovled aptitude conflicts & security updates, rebooted.
+```
+
+Closer: now only fails to display unlock prompt after locking with CTRL-ALT-DEL.
+
+
+# fixed pano: display manager crashes upon login
+
+Lightdm crashes upon login. Fixed by resetting lightdm settings:
+
+```bash
+[12:50:10]-[stowler-local]-at-[pano]-in-[~]
+$ sudo apt-get install --reinstall lightdm
+
+[12:50:54]-[stowler-local]-at-[pano]-in-[~]
+$ sudo shutdown -r now
+```
 # ran remaining FIX tests
 
 - 7am: launched loop of serial FIX operations that should finish before 1p. (Generating known-good test data for MELODIC group ICA)
@@ -159,52 +207,5 @@ Melodic Started at Thu Aug 20 22:02:28 EDT 2015 :
 ...snip...
 
 
-```
-# pano: missing unlock box for username/password
-
-Locked pano's desktop when I left last night, and now console shows wallpaper and responsive mouse but no login box. No problems connecting to existing tmux sessions via ssh, but I need access to the GUI app states from yesterday.
-
-Moved data from /tmp and rebooted:
-```bash
-[11:49:13]-[stowler-local]-at-[pano]-in-[~/src.mywork.gitRepos/infrastructure/config/testMelodic] on master [?]
-$ du -sh /tmp/fixThresh*
-1.2G    /tmp/fixThresh16
-1.2G    /tmp/fixThresh18
-1.2G    /tmp/fixThresh20
-
-[11:50:33]-[stowler-local]-at-[pano]-in-[~/src.mywork.gitRepos/infrastructure/config/testMelodic] on master [?]
-$ cd /tmp
-
-[11:50:44]-[stowler-local]-at-[pano]-in-[/tmp]
-$ mv fixThresh* /data/panolocal/tempStowler/
-
-[11:51:29]-[stowler-local]-at-[pano]-in-[/tmp]
-$ sync
-
-[11:55:50]-[stowler-local]-at-[pano]-in-[/tmp]
-$ sudo shutdown -r now
-```
-
-Didn't help. Apparently as of 14.04 ubuntu isn't using xscreensaver [anymore](http://xubuntu.org/news/screen-locking-in-xubuntu-14-04/), so :
-```bash
-[12:23:22]-[stowler-local]-at-[pano]-in-[~]
-$ sudo apt-get autoremove xscreensaver xscreensaver-data xscreensaver-gl
-
-# resovled aptitude conflicts & security updates, rebooted.
-```
-
-Closer: now only fails to display unlock prompt after locking with CTRL-ALT-DEL.
-
-
-# fixed pano: display manager crashes upon login
-
-Lightdm crashes upon login. Fixed by resetting lightdm settings:
-
-```bash
-[12:50:10]-[stowler-local]-at-[pano]-in-[~]
-$ sudo apt-get install --reinstall lightdm
-
-[12:50:54]-[stowler-local]-at-[pano]-in-[~]
-$ sudo shutdown -r now
 ```
 
