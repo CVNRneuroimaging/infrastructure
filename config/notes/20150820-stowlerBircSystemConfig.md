@@ -4,7 +4,7 @@ _...config and testing in progress..._
 - _TBD: fix pano's CTRL-ALT-DEL problem_
 
 
-# pano: missing unlock box for username/password
+# pano: missing login box
 
 Locked pano's desktop when I left last night, and now console shows wallpaper and responsive mouse but no login box. No problems connecting to existing tmux sessions via ssh, but I need access to the GUI app states from yesterday.
 
@@ -51,98 +51,17 @@ $ sudo apt-get install --reinstall lightdm
 [12:50:54]-[stowler-local]-at-[pano]-in-[~]
 $ sudo shutdown -r now
 ```
-# ran remaining FIX tests
-
-- 7am: launched loop of serial FIX operations that should finish before 1p. (Generating known-good test data for MELODIC group ICA)
-- 11:40: completed, moved from /tmp to /data/panolocal/tempStowler/
 
 
-```bash
-#!/bin/bash
+# FSL FIX: launched remaining serial tests
 
-# Quick and dirty iteration of three FIX thresholds over 12 MELODIC outputs
-# that were derived from FSL FEEDS fmri.nii.gz.
+- 7am: Launched loop of serial FIX operations that should finish before 1p. (Generating known-good test data for MELODIC group ICA). Executed using script [melFromFeeds-testSingleSessions.sh](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-testSingleSessions.sh) .
+ 
+- 11:40: completed. Moved output from /tmp to /data/panolocal/tempStowler/
 
-# Estimate of total time: 5.4 hours (9 minutes per run X 12 runs X 3 thresh)
+# FSL FIX: inspected results of serial tests outside of melview
 
-# Work will be done on system drive instead of external or network:
-rm -fr /tmp/fixThresh*
-
-trainingFile=/opt/fix/training_files/Standard.RData
-
-while read line; do
-   icaRun=${line}
-   for fixThresh in 20 18 16; do
-      # Work will be done on system drive instead of external or network:
-      mkdir /tmp/fixThresh${fixThresh}
-      cp -R /data/panolocal/tempStowler/${icaRun} /tmp/fixThresh${fixThresh}/
-      echo ""
-      echo "######################################"
-      date
-      echo "Launching FIX:"
-      echo "training file: ${trainingFile}"
-      echo "ICA RUN:       ${icaRun}"
-      echo "FIX threshold: ${fixThresh}"
-      echo "FIX version:"
-      which fix | xargs dirname | xargs ls -l
-      echo "######################################"
-      /usr/bin/time fix /tmp/fixThresh${fixThresh}/${icaRun} ${trainingFile} ${fixThresh} -m
-      echo ""
-      echo "FIX complete for thresh ${fixThresh} of ${icaRun}."
-      echo "All related output directories:"
-      du -sh /tmp/fixThresh*/*
-      echo ""
-   done #thresh loop
-done <<EOM
-melFromFeeds-structBBR-standard2mmNonlinear.ica
-melFromFeeds-structBBR-standard2mmLinear.ica
-melFromFeeds-structBBR-standardNone.ica
-melFromFeeds-struct12dof-standard2mmNonlinear.ica
-melFromFeeds-struct12dof-standard2mmLinear.ica
-melFromFeeds-struct12dof-standardNone.ica
-melFromFeeds-struct6dof-standard2mmNonlinear.ica
-melFromFeeds-struct6dof-standard2mmLinear.ica
-melFromFeeds-struct6dof-standardNone.ica
-melFromFeeds-struct7dof-standard2mmNonlinear.ica
-melFromFeeds-struct7dof-standard2mmLinear.ica
-melFromFeeds-struct7dof-standardNone.ica
-EOM
-
-```
-# inspected FIX results outside of melview
-
-Extracted list of noise components from each `fix4melview_Standard_thr*.txt` file:
-
-```bash
-#!/bin/bash
-
-# Quick and dirty extraction of the last line from all
-# fix4melview_Standard_thr${fixThresh}.txt files so that FIX-identified noise components
-# can be compared across registration methods and FIX thresholds.
-
-parentDir='/data/panolocal/tempStowler'
-tempFile=/tmp/fixResults.txt
-columnFile=/tmp/fixColumns.txt
-
-rm -f ${tempFile}
-rm -f ${columnFile}
-
-
-for methodEpiToStruct in BBR 12dof 7dof 6dof; do
-   for methodStructToStd in 2mmNonlinear 2mmLinear None; do
-      for fixThresh in 20 18 16; do
-         classFile=${parentDir}/fixThresh${fixThresh}/melFromFeeds-struct${methodEpiToStruct}-standard${methodStructToStd}.ica/fix4melview_Standard_thr${fixThresh}.txt
-         noiseList="`sed -n '$p' $classFile`"
-         echo "struct${methodEpiToStruct} standard${methodStructToStd} fixThresh${fixThresh} ${noiseList}" >> ${tempFile}
-      done # fixThresh
-   done # methodStructToStd
-done # methodEpiToStruct
-
-column -t ${tempFile} > ${columnFile}
-cat ${columnFile}
-```
-
-...which outputs:
+Ran [melFromFeeds-extractNoiseComps.sh](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-extractNoiseComps.sh) to extract list of noise components from each `fix4melview_Standard_thr*.txt` file:
 
 ```
 structBBR    standard2mmNonlinear  fixThresh20  [1,  4,  6,  8,  10,  11,  13,  16,  18,  20,  22,  24,  26,  28,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,  41,  46,  47,  48, 49,  50,  52,  53,  54,  57,  58,  61,  62,  64,  65]
@@ -191,7 +110,9 @@ $ tar -cvf melFromFeeds-afterFix.tar fixThresh*
 ```
 
 
-# launched melodic test: group ica with cleaned inputs
+# MELODIC group ICA: launched test on known-good CLEANED sample data
+
+Launched via melodic GUI with GUI progress watcher turned off. List of input images from [melFromFeeds-generateList-filtered_func_data.sh](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-generateList-filtered_func_data.sh) and [melFromFeeds-36T1s.txt](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-36T1s.txt).
 
 ```
 [10:02:47]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler]
