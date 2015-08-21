@@ -1,7 +1,8 @@
 # stowler BIRC system config: pano.birc.emory.edu on 20150820
 
-_...config and testing in progress..._
-- _TBD: fix pano's CTRL-ALT-DEL problem_
+_More config and testing to be done, but here are today's notes._
+
+_TBD: fix pano's CTRL-ALT-DEL problem_
 
 
 # pano: missing login box
@@ -110,9 +111,11 @@ $ tar -cvf melFromFeeds-afterFix.tar fixThresh*
 ```
 
 
-# MELODIC group ICA: launched test on known-good CLEANED sample data
+# MELODIC group ICA: ran test on known-good CLEANED sample data
 
 Launched via melodic GUI with GUI progress watcher turned off. List of input images from [melFromFeeds-generateList-filtered_func_data.sh](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-generateList-filtered_func_data.sh) and [melFromFeeds-36T1s.txt](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-36T1s.txt).
+
+Completed group ICA of 36 FIX-cleaned "sessions" in about 12 hours:
 
 ```
 [10:02:47]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler]
@@ -127,6 +130,11 @@ Melodic Started at Thu Aug 20 22:02:28 EDT 2015 :
 
 ...snip...
 
+Melodic Started at Thu Aug 20 22:02:28 EDT 2015 :
+155M    /tmp/melFromFeeds-groupICA-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+...but melodic not yet finished as of Fri Aug 21 10:07:21 EDT 2015. Will check again in 20 seconds...
+
+Finished at Fri Aug 21 10:07:40 EDT 2015
 
 ```
 
