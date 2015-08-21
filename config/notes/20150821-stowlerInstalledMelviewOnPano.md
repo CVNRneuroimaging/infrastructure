@@ -1,3 +1,7 @@
+# installed melview on pano
+
+## installed dependencies per README and melview [webpage](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Melview)
+```bash
 [01:00:29]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos]
 $ sudo apt-get install python-configobj python-enthoughtbase python-matplotlib python-nibabel python-pyface python-pyside python-traits python-traitsui 
 Reading package lists... Done
@@ -31,11 +35,11 @@ The following NEW packages will be installed:
 Need to get 6,188 kB of archives.
 After this operation, 32.5 MB of additional disk space will be used.
 Do you want to continue? [Y/n] 
+```
 
+## ran install command per melview [webpage](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Melview)
 
-[01:07:51]-[stowler-local]-at-[pano]-in-[~]
-$ cd ~/src.upstream.gitRepos/melview
-
+```bash
 [01:07:58]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
 $ sudo python ./setup.py install
 running install
@@ -191,11 +195,14 @@ python-dateutil 1.5 is already the active version in easy-install.pth
 
 Using /usr/lib/python2.7/dist-packages
 Finished processing dependencies for melview==1.0.1
+```
 
-[01:08:12]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
-$ 
+## confirmed location of installed melview executables:
+
+...they're not symlinks:
 
 
+```bash
 [01:11:43]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
 $ which melview | xargs ls -l
 -rwxr-xr-x 1 root root 301 Aug 21 13:08 /usr/local/bin/melview
@@ -203,5 +210,5 @@ $ which melview | xargs ls -l
 [01:12:00]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
 $ which mv2fix | xargs ls -l
 -rwxr-xr-x 1 root root 299 Aug 21 13:08 /usr/local/bin/mv2fix
-
+```
 

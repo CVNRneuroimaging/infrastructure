@@ -99,7 +99,37 @@ $ du -sh fixThresh*/* | head -n 5
 
 # melview: install and test
 
-TBD
+I installed using steps below, then tested by visualizing recent melFromFeeds FIX output (see notes from last few days). For future troubleshooting I pasted the install's relevant stdout to its own [file](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/notes/20150821-stowlerInstalledMelviewOnPano.md).
+
+Three install steps:
+
+## 1) installed dependencies per README and melview [webpage](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Melview)
+
+```bash
+[01:00:29]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos]
+$ sudo apt-get install python-configobj python-enthoughtbase python-matplotlib python-nibabel python-pyface python-pyside python-traits python-traitsui 
+```
+
+## 2) ran install command per melview [webpage](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Melview)
+
+```bash
+[01:07:58]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
+$ sudo python ./setup.py install
+```
+
+## 3) confirmed location of installed melview executables:
+
+...and that they're not symlinks:
+
+```bash
+[01:11:43]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
+$ which melview | xargs ls -l
+-rwxr-xr-x 1 root root 301 Aug 21 13:08 /usr/local/bin/melview
+
+[01:12:00]-[stowler-local]-at-[pano]-in-[~/src.upstream.gitRepos/melview] on master
+$ which mv2fix | xargs ls -l
+-rwxr-xr-x 1 root root 299 Aug 21 13:08 /usr/local/bin/mv2fix
+```
 
 # FSLNets: install
 
