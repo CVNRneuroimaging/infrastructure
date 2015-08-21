@@ -135,6 +135,31 @@ struct6dof   standardNone          fixThresh18  [1,  4,  5,  7,  8,   12,  14,  
 struct6dof   standardNone          fixThresh16  [1,  4,  5,  7,  8,   12,  14,  15,  17,  18,  19,  25,  27,  28,  31,  32,  33,  34,  35,  36,  37,  40,  41,  45,  46,  47,  48,  49,  50,  51,  52,  53,  54,  56,  59,  60,  61,  63,  64,  65]
 ```
 
+Created archive of results before applying group ICA and dual regression:
+
+```bash
+[09:23:28]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler]
+$ tar -cvf melFromFeeds-afterFix.tar fixThresh*
+```
+
+
+# launched melodic test: group ica with cleaned inputs
+
+```
+[10:02:47]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler]
+$ bwMelodicProgress.sh /tmp/melFromFeeds-groupICA-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+
+Progress of the melodic creating output in /tmp/melFromFeeds-groupICA-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica:
+drwxrwxr-x 5 stowler-local stowler-local 4096 Aug 20 22:02 /tmp/melFromFeeds-groupICA-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+
+Melodic Started at Thu Aug 20 22:02:28 EDT 2015 :
+884K    /tmp/melFromFeeds-groupICA-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+...but melodic not yet finished as of Thu Aug 20 22:03:02 EDT 2015. Will check again in 20 seconds...
+
+...snip...
+
+
+```
 # pano: missing unlock box for username/password
 
 Locked pano's desktop when I left last night, and now console shows wallpaper and responsive mouse but no login box. No problems connecting to existing tmux sessions via ssh, but I need access to the GUI app states from yesterday.
