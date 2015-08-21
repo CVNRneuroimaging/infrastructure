@@ -131,20 +131,20 @@ $ which mv2fix | xargs ls -l
 -rwxr-xr-x 1 root root 299 Aug 21 13:08 /usr/local/bin/mv2fix
 ```
 
-# FSLNets: install
-
-TBD
-
-# FSLNets: test on known-good sample data
-
-_(test on something outside of melFromFeeds lineage)_
-
-TBD
-
-# MELODIC dual-regression: test on known-good CLEANED sample data
-
-TBD
-
 # MELODIC group ICA: launched test on known-good UNCLEANED sample data
 
-TBD
+Launched via melodic GUI with GUI progress watcher turned off. List of input images from [melFromFeeds-generateList-filtered_func_data.sh](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-generateList-filtered_func_data.sh) and [melFromFeeds-36T1s.txt](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-36T1s.txt).
+
+Should take about 12 hours.
+
+```bash
+[05:53:30]-[stowler-local]-at-[pano]-in-[~]
+$ bwMelodicProgress.sh /tmp/melFromFeeds-groupICA-inputsUncleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+
+Progress of the melodic creating output in /tmp/melFromFeeds-groupICA-inputsUncleaned-temporalCat-structBBR-standard2mmNonlinear.gica:
+drwxrwxr-x 5 stowler-local stowler-local 4096 Aug 21 17:52 /tmp/melFromFeeds-groupICA-inputsUncleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+
+Melodic Started at Fri Aug 21 17:52:38 EDT 2015 :
+880K    /tmp/melFromFeeds-groupICA-inputsUncleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+...but melodic not yet finished as of Fri Aug 21 17:53:44 EDT 2015. Will check again in 20 seconds...
+```
