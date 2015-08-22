@@ -1,9 +1,17 @@
-# stowler BIRC system config: pano.birc.emory.edu on 20150820
+# stowler BIRC system config: pano.birc.emory.edu on Thursday 20150820
 
 _More config and testing to be done, but here are today's notes._
 
 _TBD: fix pano's CTRL-ALT-DEL problem_
 
+Contents
+=================
+
+  * [pano: missing login box](#pano-missing-login-box)
+  * [fixed pano: display manager crashes upon login](#fixed-pano-display-manager-crashes-upon-login)
+  * [FSL FIX: launched remaining serial tests](#fsl-fix-launched-remaining-serial-tests)
+  * [FSL FIX: inspected results of serial tests outside of melview](#fsl-fix-inspected-results-of-serial-tests-outside-of-melview)
+  * [MELODIC group ICA: ran test on known\-good CLEANED sample data](#melodic-group-ica-ran-test-on-known-good-cleaned-sample-data)
 
 # pano: missing login box
 
