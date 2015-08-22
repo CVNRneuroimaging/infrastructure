@@ -2,8 +2,16 @@
 
 _More config and testing to be done tmw, but here are today’s notes._
 
+Contents
+=================
+  * [MELODIC group ICA: inspected test results from known\-good CLEANED sample data](#melodic-group-ica-inspected-test-results-from-known-good-cleaned-sample-data)
+  * [MELVIEW: installed and tested](#melview-installed-and-tested)
+  * [reconfigured pano cabling and monitor support](#reconfigured-pano-cabling-and-monitor-support)
+  * [backed\-up external drive to hippoback](#backed-up-external-drive-to-hippoback)
+  * [MELODIC group ICA: launched test on known\-good UNCLEANED sample data](#melodic-group-ica-launched-test-on-known-good-uncleaned-sample-data)
 
-# MELODIC group ICA: inspect test results from known-good CLEANED sample data
+
+# MELODIC group ICA: inspected test results from known-good CLEANED sample data
 
 _TBD: double-check html reports_
 
@@ -93,7 +101,7 @@ $ du -sh fixThresh*/* | head -n 5
 110M    fixThresh16/melFromFeeds-struct6dof-standard2mmNonlinear.ica
 ```
 
-# melview: install and test
+# MELVIEW: installed and tested
 
 I installed melview using steps below, then tested by visualizing recent melFromFeeds FIX output (see notes from last few days). For future troubleshooting I pasted the install's relevant stdout to its own [file](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/notes/20150821-stowlerInstalledMelviewOnPano.md).
 
