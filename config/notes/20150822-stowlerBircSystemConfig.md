@@ -3,7 +3,11 @@
 _...config and testing in progress..._
 
 
-# MELODIC group ICA: inspected test results from known-good UNCLEANED sample data
+# pano.birc.emory.edu
+
+_Continuing config and testing on pano, which seems to be getting increasingly unstable._
+
+## MELODIC group ICA: inspected test results from known-good UNCLEANED sample data
 
 _TBD: double-check html reports_
 
@@ -91,10 +95,14 @@ stowler-local@hippoback:/data/backup/Atlanta/stowlerxfer082115$ du -sh data
 37G     data
 ```
 
-# trouble: pano lost console, so rebooted pano per Keith 
+## trouble: pano lost console, so rebooted pano per Keith 
 
 From [ticket](https://github.com/CVNRneuroimaging/infrastructure/issues/138#issuecomment-133730061):
+
 > Keith and Rob @kmcgregor123456 @rrmm : please check pano's logs and zabbix plots. I left WMB last night with perfectly functional lightdm showing on the console and now I'm back in WMB for GUI-intensive work, staring at a blank and unresponsive console including unresponsive capslock light.
+
+...then:
+
 > Keith and Rob @kmcgregor123456 @rrmm : I spoke to Keith on the phone, and he advised that I reboot pano (instead of bouncing runlevel) as the log pollution is a fair trade-off for having a functional console quickly. Rob/Keith please check pano's logs and plots between 6pm yesterday (the 21st) and this reboot:
 
 ```bash
@@ -122,16 +130,69 @@ $ uptime
 $ sudo shutdown -r now
 [sudo] password for stowler-local:
 ```
-# FSLNets: install
+<!--
+
+## FSLNets: install
 
 TBD
 
-# FSLNets: test on known-good sample data (not in melFromFeeds lineage)
+## FSLNets: test on known-good sample data (not in melFromFeeds lineage)
 
 TBD
 
-# MELODIC dual-regression: test on known-good CLEANED sample data
+## MELODIC dual-regression: test on known-good CLEANED sample data
 
 TBD
 
-# Hayling: launch MELODIC group ICA (~12 hrs)
+## Hayling: launch MELODIC group ICA (~12 hrs)
+
+-->
+
+# rama.birc.emory.edu
+
+Given pano's increasing instability it's now EXTRA important to get lightdm rama configured and working.
+
+## installed nvidia support, rebooted:
+
+TBD: see full stdout in separate file...
+
+```bash
+[03:30:54]-[stowler-local]-at-[rama]-in-[~]
+$ sudo apt-get update
+
+[03:31:10]-[stowler-local]-at-[rama]-in-[~]
+$ sudo apt-get dist-upgrade
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Calculating upgrade... Done
+The following packages will be upgraded:
+  apport apport-gtk firefox firefox-locale-en openssh-client openssh-server
+  openssh-sftp-server python-numexpr python3-apport python3-problem-report
+  r-base r-base-core r-base-dev r-base-html r-cran-foreign r-cran-nlme
+  r-cran-spatial r-recommended ssh
+19 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 65.6 MB of archives.
+After this operation, 135 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+
+[03:40:38]-[stowler-local]-at-[rama]-in-[~]
+$ sudo apt-get install nvidia-common nvidia-settings nvidia-current-updates
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following extra packages will be installed:
+  dkms lib32gcc1 libc6-i386 libcuda1-304-updates libvdpau1 nvidia-304-updates
+  nvidia-opencl-icd-304-updates screen-resolution-extra
+Suggested packages:
+  nvidia-vdpau-driver vdpau-driver
+The following NEW packages will be installed:
+  dkms lib32gcc1 libc6-i386 libcuda1-304-updates libvdpau1 nvidia-304-updates
+  nvidia-common nvidia-current-updates nvidia-opencl-icd-304-updates
+  nvidia-settings screen-resolution-extra
+0 upgraded, 11 newly installed, 0 to remove and 0 not upgraded.
+Need to get 50.9 MB of archives.
+After this operation, 223 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+```
+
