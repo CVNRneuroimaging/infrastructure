@@ -195,4 +195,35 @@ Need to get 50.9 MB of archives.
 After this operation, 223 MB of additional disk space will be used.
 Do you want to continue? [Y/n] Y
 ```
+## configured quad monitors
 
+Used GUI "NIVDIA X Server Settings" and saved to /etc/X11/xorg.conf (TBD: link to file)
+
+## configured vim
+```bash
+$ sudo apt-get install vim-gtk
+```
+
+## installed matlab
+
+Used GUI to install to `/opt/MATLAB/R2015a`, with symlinks in `/usr/local/bin`:
+
+```
+>> ver
+----------------------------------------------------------------------------------------------------
+MATLAB Version: 8.5.0.197613 (R2015a)
+MATLAB License Number: 300274
+Operating System: Linux 3.19.0-26-generic #28~14.04.1-Ubuntu SMP Wed Aug 12 14:09:17 UTC 2015 x86_64
+Java Version: Java 1.7.0_60-b19 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+----------------------------------------------------------------------------------------------------
+MATLAB                                                Version 8.5        (R2015a)
+Bioinformatics Toolbox                                Version 4.5.1      (R2015a)
+Image Processing Toolbox                              Version 9.2        (R2015a)
+MATLAB Coder                                          Version 2.8        (R2015a)
+MATLAB Compiler                                       Version 6.0        (R2015a)
+MATLAB Compiler SDK                                   Version 6.0        (R2015a)
+Parallel Computing Toolbox                            Version 6.6        (R2015a)
+Signal Processing Toolbox                             Version 7.0        (R2015a)
+Statistics and Machine Learning Toolbox               Version 10.0       (R2015a)
+>> 
+```
