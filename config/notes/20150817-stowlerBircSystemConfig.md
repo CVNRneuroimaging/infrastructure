@@ -1,8 +1,21 @@
-# stowler BIRC system config: rama.birc.emory.edu on 20150817
+# stowler BIRC system config: rama.birc.emory.edu on Monday 20150817
 
 _More install/config/testing to be done but this is what I completed today._
 
-# install git
+Contents
+=================
+
+  * [installed git](#installed-git)
+  * [installed and synchronized vcsh and mr](#installed-and-synchronized-vcsh-and-mr)
+  * [installed vim and command\-line utilities](#installed-vim-and-command-line-utilities)
+  * [installed R](#installed-r)
+    * [updated apt sources and R packages](#updated-apt-sources-and-r-packages)
+    * [updated the installed packages from within R](#updated-the-installed-packages-from-within-r)
+    * [installed support for rgl and Rcmdr](#installed-support-for-rgl-and-rcmdr)
+    * [compiled R packages and dependencies](#compiled-r-packages-and-dependencies)
+
+
+# installed git
 
 ```bash
 $ git --version
@@ -16,7 +29,7 @@ sudo apt-get install git
 ```
 
 
-# install/sync vcsh and mr
+# installed and synchronized vcsh and mr
 
 ```bash
 $ mkdir ${HOME}/src.upstream.gitRepos
@@ -38,27 +51,25 @@ $ mr up
 
 ```
 
-# install vim and command-line utilities
+# installed vim and command-line utilities
 
 
 ```bash
 $ sudo apt-get install vim vim-doc wget tmux tree htop slurm imagemagick aptitude
 ```
 
-# install R
+# installed R
 
 
-After removing r packages from non-cran apt sources, I edited apt sources:
+## updated apt sources and R packages
+
+After removing R packages from non-cran apt sources, I edited apt sources:
 
 ```bash
 $ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9  
 # add this line to /etc/apt/sources.list for 14.04 Trusty, or modify for your ubuntu release per the README  
 # deb http://cran.stat.ucla.edu/bin/linux/ubuntu trusty/  
-```
 
-Installed r-base and r-base-dev from apt:
-
-```bash
 $ sudo apt-get update 
 $ sudo apt-get install r-base r-base-dev
 Reading package lists... Done
@@ -87,35 +98,37 @@ Do you want to continue? [Y/n] Y
 
 ```
 
-Updated the installed packages via CRAN:
+## updated the installed packages from within R
 
 ```
-sudo R --no-save  
-update.packages(ask=FALSE)  
-q()
+$ sudo R --no-save  
+> update.packages(ask=FALSE)  
+> q()
 ```
 
-Installed deps for rgl, Rcmdr, RcmdrPlugin.HH:
+## installed support for rgl and Rcmdr
 
 ```bash
  # rgl dependencies from apt sources:
  $ sudo apt-get install xserver-xorg-dev libx11-dev libglu1-mesa-dev mesa-utils glew-utils
+
  # Rcmdr dependencies from apt sources:
  # ...could apt-get install r-cran-rjava, but may be better to just install its deps:
  $ sudo apt-get install default-jre default-jdk unixodbc-dev
  $ sudo R CMD javareconf
+
  # RcmdrPlugin.HH dependencies from apt sources:
  $ sudo apt-get install libgmp-dev libmpfr-dev
 ```
 
-Compiled system-wide packages from within R:
+## compiled R packages and dependencies
 
 ```
-sudo R --no-save  
-install.packages('rgl', dependencies=TRUE)  
-install.packages('car', dependencies=TRUE)  
-install.packages('XLConnect', dependencies=TRUE)  
-install.packages('Rcmdr', dependencies=TRUE)  
-install.packages('RcmdrPlugin.HH', dependencies=TRUE)  
-q()
+$ sudo R --no-save  
+> install.packages('rgl', dependencies=TRUE)  
+> install.packages('car', dependencies=TRUE)  
+> install.packages('XLConnect', dependencies=TRUE)  
+> install.packages('Rcmdr', dependencies=TRUE)  
+> install.packages('RcmdrPlugin.HH', dependencies=TRUE)  
+> q()
 ```

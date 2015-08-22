@@ -1,8 +1,30 @@
-# stowler BIRC system config: pano.birc.emory.edu on 20150818
+# stowler BIRC system config: pano.birc.emory.edu on Tuesday 20150818
 
 _More config and testing to be done, but this is what I completed today._
 
-# confirmed environment after upgrade to 14.04
+Contents
+=================
+
+  * [confirmed environment](#confirmed-environment)
+  * [confirmed git](#confirmed-git)
+  * [confirmed/upgraded vcsh/mr](#confirmedupgraded-vcshmr)
+  * [confirmed general command\-line utilities](#confirmed-general-command-line-utilities)
+  * [configured R](#configured-r)
+    * [confirmed location of currently installed R libraries](#confirmed-location-of-currently-installed-r-libraries)
+    * [removed all R packages and libraries](#removed-all-r-packages-and-libraries)
+    * [updated apt sources and packages](#updated-apt-sources-and-packages)
+    * [updated the installed packages from within R](#updated-the-installed-packages-from-within-r)
+    * [installed support for rgl and Rcmdr](#installed-support-for-rgl-and-rcmdr)
+    * [compiled R packages and dependencies](#compiled-r-packages-and-dependencies)
+    * [tested R 3D and GUI toolkits:](#tested-r-3d-and-gui-toolkits)
+  * [confirmed matlab](#confirmed-matlab)
+  * [tested FSL](#tested-fsl)
+  * [installed FSL FIX](#installed-fsl-fix)
+
+
+# confirmed environment
+
+Confirmed environment after upgrading ubuntu 12.04 to 14.04:
 
 ```bash
 $ uname -a
@@ -81,16 +103,18 @@ $ which curl wget tmux tree htop slurm vim aptitude convert
 
 # configured R
 
-## confirmed location of currently installed R libraries:
+## confirmed location of currently installed R libraries
 
-```
+```bash
 $ sudo R --no-save
 > .libPaths()
 [1] "/usr/local/lib/R/site-library" "/usr/lib/R/site-library"
 [3] "/usr/lib/R/library"
 ```
 
-## removed outdated R packages:
+## removed all R packages and libraries
+
+Removed all R packages, dependencies, and CRAN libraries in preparation for fresh reinstall.
 
 ```bash
 $ sudo apt-get autoremove r-base r-base-core r-base-dev r-doc-html
@@ -134,44 +158,44 @@ After this operation, 56.6 MB of additional disk space will be used.
 Do you want to continue? [Y/n] Y
 ```
 
-## updated the installed packages from within R:
+## updated the installed packages from within R
 
-```
-sudo R --no-save
-update.packages(ask=FALSE, repos='http://cran.stat.ucla.edu')
-q()
+```bash
+$ sudo R --no-save
+> update.packages(ask=FALSE, repos='http://cran.stat.ucla.edu')
+> q()
 ```
 
-## installed R deps:
+## installed support for rgl and Rcmdr
 
 ```bash
 # rgl dependencies from apt sources:
-sudo apt-get install xserver-xorg-dev libx11-dev libglu1-mesa-dev mesa-utils glew-utils
+$ sudo apt-get install xserver-xorg-dev libx11-dev libglu1-mesa-dev mesa-utils glew-utils
 
 # Rcmdr dependencies from apt sources:
-sudo apt-get install default-jre default-jdk unixodbc-dev
-sudo R CMD javareconf
+$ sudo apt-get install default-jre default-jdk unixodbc-dev
+$ sudo R CMD javareconf
 
 # RcmdrPlugin.HH dependencies from apt sources:
-sudo apt-get install libgmp-dev libmpfr-dev
+$ sudo apt-get install libgmp-dev libmpfr-dev
 ```
 
-## compiled R packages and dependencies:
+## compiled R packages and dependencies
 
-```
-sudo R --no-save
-install.packages('rgl',            dependencies=TRUE, repos='http://cran.stat.ucla.edu')
-install.packages('car',            dependencies=TRUE, repos='http://cran.stat.ucla.edu')
-install.packages('XLConnect',      dependencies=TRUE, repos='http://cran.stat.ucla.edu')
-install.packages('Rcmdr',          dependencies=TRUE, repos='http://cran.stat.ucla.edu')
-install.packages('RcmdrPlugin.HH', dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+```bash
+$ sudo R --no-save
+> install.packages('rgl',            dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages('car',            dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages('XLConnect',      dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages('Rcmdr',          dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages('RcmdrPlugin.HH', dependencies=TRUE, repos='http://cran.stat.ucla.edu')
 
 ```
 
 
 ## tested R 3D and GUI toolkits:
 
-```
+```bash
 $ sudo R --no-save
 > library(rgl)
 > demo(rgl)
@@ -257,11 +281,11 @@ $ echo $FSLDIR
 Adjusted file/dir permissions, extracted FSL FEEDS:
 
 ```bash
-sudo chmod -R a+r /data/backup/Atlanta/stowlerWIP/neuroSoftware
-sudo mkdir /data/panolocal/tempStowler
-sudo chown stowler-local /data/panolocal/tempStowler
-cd /data/panolocal/tempStowler
-tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
+$ sudo chmod -R a+r /data/backup/Atlanta/stowlerWIP/neuroSoftware
+$ sudo mkdir /data/panolocal/tempStowler
+$ sudo chown stowler-local /data/panolocal/tempStowler
+$ cd /data/panolocal/tempStowler
+$ tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
 ```
 
 Ran fsl self-test on external drive mounted as `/data/panolocal`:
@@ -269,7 +293,7 @@ Ran fsl self-test on external drive mounted as `/data/panolocal`:
 ```bash
 $ cat /etc/mtab | grep panolocal
 /dev/sdb1 /data/panolocal ext4 rw 0 0
-cd  /data/panolocal/tempStowler/feeds
+$ cd  /data/panolocal/tempStowler/feeds
 # removed "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
 
 [05:03:31]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler/feeds]
@@ -296,13 +320,13 @@ end time = Tue Aug 18 17:31:25 EDT 2015
 ```
 
 
-Ran fsl self-test on internal drive to confirm that we're not handicapping ourselves with speed of external drive:
+Ran FSL self-test on internal drive to confirm that we're not handicapping ourselves with speed of external drive:
 
 ```bash
-mkdir /tmp/stowlerFeeds
-cd /tmp/stowlerFeeds
-tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
-cd feeds
+$ mkdir /tmp/stowlerFeeds
+$ cd /tmp/stowlerFeeds
+$ tar -zxvf /data/backup/Atlanta/stowlerWIP/neuroSoftware/fsl/fsl-current-20150115/fsl-5.0.8-feeds.tar.gz
+$ cd feeds
 # removed "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in RUN
 
 [06:35:05]-[stowler-local]-at-[pano]-in-[/tmp/stowlerFeeds/feeds]
@@ -329,7 +353,8 @@ end time = Tue Aug 18 19:03:05 EDT 2015
 
 # installed FSL FIX
 
-Download and untar FIX:
+Downloaded and extracted FIX:
+
 ```bash
 $ wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix.tar.gz
 --2015-08-18 19:25:19--  http://www.fmrib.ox.ac.uk/~steve/ftp/fix.tar.gz
