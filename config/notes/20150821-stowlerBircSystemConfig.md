@@ -1,13 +1,11 @@
-# stowler BIRC system config: pano.birc.emory.edu on 20150821
+# stowler BIRC system config: pano.birc.emory.edu on Friday 20150821
 
-_...config and tesing in progress..._
-
-_TBD: fix pano's CTRL-ALT-DEL problem_
+_More config and testing to be done tmw, but here are today’s notes._
 
 
 # MELODIC group ICA: inspect test results from known-good CLEANED sample data
 
-_TBD: visually inspect results_
+_TBD: double-check html reports_
 
 Yesterday's group ICA run completed around 10am today (~12 hrs):
 ```
@@ -18,7 +16,7 @@ Melodic Started at Thu Aug 20 22:02:28 EDT 2015 :
 Finished at Fri Aug 21 10:07:40 EDT 2015
 ```
 
-Noted that the input directories received writes until the last ~1.5 hrs of the total 12-hr processing, and that they have grown significantly (~14 GB from ~4 GB):
+Looks valid. The input directories received writes until the last ~1.5 hrs of the total 12-hr processing, and they have grown significantly (~14 GB from ~4 GB):
 
 ```bash
 [11:17:06]-[stowler-local]-at-[pano]-in-[/data/panolocal/tempStowler]
@@ -43,8 +41,6 @@ $ du -sh fixThresh*/* | head -n 5
 385M    fixThresh16/melFromFeeds-struct6dof-standard2mmLinear.ica
 415M    fixThresh16/melFromFeeds-struct6dof-standard2mmNonlinear.ica
 ```
-
-## stored the gica results and reset the single-session ICA data for next test
 
 Moved the output from /tmp to external drive:
 ```bash
@@ -99,7 +95,7 @@ $ du -sh fixThresh*/* | head -n 5
 
 # melview: install and test
 
-I installed using steps below, then tested by visualizing recent melFromFeeds FIX output (see notes from last few days). For future troubleshooting I pasted the install's relevant stdout to its own [file](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/notes/20150821-stowlerInstalledMelviewOnPano.md).
+I installed melview using steps below, then tested by visualizing recent melFromFeeds FIX output (see notes from last few days). For future troubleshooting I pasted the install's relevant stdout to its own [file](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/notes/20150821-stowlerInstalledMelviewOnPano.md).
 
 Three install steps:
 
@@ -131,6 +127,49 @@ $ which mv2fix | xargs ls -l
 -rwxr-xr-x 1 root root 299 Aug 21 13:08 /usr/local/bin/mv2fix
 ```
 
+# reconfigured pano cabling and monitor support
+
+Re-cabled pano:
+- moved pano's UPS to emory emergency power outlet
+- moved LCD monitors off of pano's battery, so that pano battery is only supporting pano's chassis and external drive
+- moved pano's external drive from USB2 to USB3
+- repeatedly rebooted (5-6x) until all four of pano's monitors were recognized again, and then reconfigured [xorg.conf](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/xorg.conf-panoQuadMonitors-stowler20150821) to support them.
+
+
+# backed-up external drive to hippoback
+
+Initiated rsync from the hippostore side. Topping out at 33 MB/s:
+
+```bash
+stowler-local@hippoback:/data/backup/Atlanta/stowlerxfer082115$ rsync -avR --progress stowler-local@pano.birc.emory.edu:/data/panolocal .
+
+Password:
+receiving incremental file list
+data/
+data/panolocal/
+data/panolocal/tempStowler/
+data/panolocal/tempStowler/melFromFeeds-afterFix.tar
+  3500687360 100%   32.08MB/s    0:01:44 (xfer#1, to-check=1032/1036)
+
+
+# ...yes, USB3 now unless this is a reporting error:
+[05:01:48]-[stowler-local]-at-[pano]-in-[/data]
+$ lsusb -t
+/:  Bus 10.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/2p, 5000M
+    |__ Port 1: Dev 2, If 0, Class=Mass Storage, Driver=usb-storage, 5000M
+/:  Bus 09.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/2p, 480M
+/:  Bus 08.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+/:  Bus 07.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+/:  Bus 06.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+/:  Bus 05.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+    |__ Port 1: Dev 2, If 0, Class=Human Interface Device, Driver=usbhid, 1.5M
+    |__ Port 1: Dev 2, If 1, Class=Human Interface Device, Driver=usbhid, 1.5M
+    |__ Port 2: Dev 3, If 0, Class=Human Interface Device, Driver=usbhid, 1.5M
+/:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+/:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=uhci_hcd/2p, 12M
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/8p, 480M
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-pci/4p, 480M
+```
 # MELODIC group ICA: launched test on known-good UNCLEANED sample data
 
 Launched via melodic GUI with GUI progress watcher turned off. List of input images from [melFromFeeds-generateList-filtered_func_data.sh](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-generateList-filtered_func_data.sh) and [melFromFeeds-36T1s.txt](https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/tests-melodicAndFix-201508/melFromFeeds-36T1s.txt).
