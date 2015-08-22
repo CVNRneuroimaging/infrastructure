@@ -2,6 +2,20 @@
 
 _More config and testing to be done, but this is what I completed today._
 
+Contents
+=================
+
+  * [tested melodic in preparation for testing FIX](#tested-melodic-in-preparation-for-testing-fix)
+    * [ran melodic with no registration to standard template](#ran-melodic-with-no-registration-to-standard-template)
+    * [ran melodic with linear only registration to standard template](#ran-melodic-with-linear-only-registration-to-standard-template)
+    * [ran melodic with nonlinear registration to standard template](#ran-melodic-with-nonlinear-registration-to-standard-template)
+    * [moved melodic results from /tmp](#moved-melodic-results-from-tmp)
+    * [inspected melodic registrations](#inspected-melodic-registrations)
+    * [inspected melodic components](#inspected-melodic-components)
+  * [updated pano and rebooted](#updated-pano-and-rebooted)
+  * [tested FIX](#tested-fix)
+
+
 # tested melodic in preparation for testing FIX
 
 _Bottom line: no unexpected output from MELODIC on 14.04. Produced 12 unique datasets for FIX from FSL FEEDS `fmri.nii.gz`, `structural.nii.gz`, and `structural_brain.nii.gz`._
