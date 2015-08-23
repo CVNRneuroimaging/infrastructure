@@ -1,6 +1,18 @@
-# stowler BIRC system config: pano.birc.emory.edu on Saturday 20150822
+# stowler BIRC system config: pano and rama on Saturday 20150822
 
-_...config and testing in progress..._
+_More config and testing TBD but this is what I completed today._
+
+Contents
+=================
+
+  * [pano\.birc\.emory\.edu](#panobircemoryedu)
+    * [MELODIC group ICA: inspected test results from known\-good UNCLEANED sample data](#melodic-group-ica-inspected-test-results-from-known-good-uncleaned-sample-data)
+    * [unlockable console problems continue](#unlockable-console-problems-continue)
+  * [rama\.birc\.emory\.edu](#ramabircemoryedu)
+    * [installed nvidia support, rebooted](#installed-nvidia-support-rebooted)
+    * [configured quad monitors](#configured-quad-monitors)
+    * [installed matlab](#installed-matlab)
+    * [unlockable console: initial troubleshooting](#unlockable-console-initial-troubleshooting)
 
 
 # pano.birc.emory.edu
@@ -95,9 +107,9 @@ stowler-local@hippoback:/data/backup/Atlanta/stowlerxfer082115$ du -sh data
 37G     data
 ```
 
-## trouble: pano lost console, so rebooted pano per Keith 
+## unlockable console problems continue
 
-From [ticket](https://github.com/CVNRneuroimaging/infrastructure/issues/138#issuecomment-133730061):
+Pano's console still becomes unlockable intermittently but frequently. Opened [ticket](https://github.com/CVNRneuroimaging/infrastructure/issues/138#issuecomment-133730061), excerpted:
 
 > Keith and Rob @kmcgregor123456 @rrmm : please check pano's logs and zabbix plots. I left WMB last night with perfectly functional lightdm showing on the console and now I'm back in WMB for GUI-intensive work, staring at a blank and unresponsive console including unresponsive capslock light.
 
@@ -130,29 +142,14 @@ $ uptime
 $ sudo shutdown -r now
 [sudo] password for stowler-local:
 ```
-<!--
 
-## FSLNets: install
-
-TBD
-
-## FSLNets: test on known-good sample data (not in melFromFeeds lineage)
-
-TBD
-
-## MELODIC dual-regression: test on known-good CLEANED sample data
-
-TBD
-
-## Hayling: launch MELODIC group ICA (~12 hrs)
-
--->
+Tried a few single- and dual-monitor configs...didn't help.
 
 # rama.birc.emory.edu
 
-Given pano's increasing instability it's now EXTRA important to get lightdm rama configured and working.
+Giverpt's increasing instability it's now EXTRA important to get lightdm rama configured and working.
 
-## installed nvidia support, rebooted:
+## installed nvidia support, rebooted
 
 TBD: see full stdout in separate file...
 
@@ -199,10 +196,6 @@ Do you want to continue? [Y/n] Y
 
 Used GUI "NIVDIA X Server Settings" and saved to /etc/X11/xorg.conf (TBD: link to file)
 
-## configured vim
-```bash
-$ sudo apt-get install vim-gtk
-```
 
 ## installed matlab
 
@@ -227,3 +220,11 @@ Signal Processing Toolbox                             Version 7.0        (R2015a
 Statistics and Machine Learning Toolbox               Version 10.0       (R2015a)
 >> 
 ```
+
+## unlockable console: initial troubleshooting
+
+Today is the first day I've worked with rama's console. Showing same symptoms as pano: disappearing lightdm, lightdm without a login box. Intermittent but frequent.
+
+Looks like this is a known ubuntu 14.04 problem, with existing [bugreports](https://bugs.launchpad.net/ubuntu/+source/unity/+bug/1311316). 
+
+Tried single-monitor and dual-monitor setups in a few configurations, but didn't help. Opening a new [ticket](https://github.com/CVNRneuroimaging/infrastructure/issues/142) for Keith and Rob.
