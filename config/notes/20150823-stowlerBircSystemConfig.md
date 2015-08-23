@@ -110,13 +110,21 @@ Run FSL self-test FEEDS:
 ```bash
 $ cp -R --dereference /opt/feeds /tmp/myFeedsCopy
 
-# On some linux installs the user may need to remove
-# "DYLD_LIBRARY_PATH LD_LIBRARY_PATH" from line 398 in file "RUN"
-# (confirmed in FSL 5.0.7 and 5.0.8 running on neurodebian ubuntu 12.04 and 14.04)
-
 $ cd /tmp/myFeedsCopy
 
 [10:13:59]-[stowler-local]-at-[rama]-in-[/tmp/myFeedsCopy]
 $ /usr/bin/time ./RUN all
+
+...snip...
+
+All tests passed
+
+end time = Sun Aug 23 10:42:39 EDT 2015
+
+1503.78user 11.42system 28:30.08elapsed 88%CPU (0avgtext+0avgdata 988924maxresident)k
+46264inputs+1055544outputs (85major+3480278minor)pagefaults 0swaps
+
+[10:42:39]-[stowler-local]-at-[rama]-in-[/tmp/myFeedsCopy]
+$
 ```
 
