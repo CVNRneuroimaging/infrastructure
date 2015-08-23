@@ -7,8 +7,11 @@ Contents
 
   * [pano\.birc\.emory\.edu](#panobircemoryedu)
   * [rama\.birc\.emory\.edu](#ramabircemoryedu)
-    * [FSL: config and test](#fsl-config-and-test)
-    * [FSL FIX: install](#fsl-fix-install)
+    * [R: tested](#r-tested)
+    * [FSL: configured and tested](#fsl-configured-and-tested)
+    * [FSL FIX: installed](#fsl-fix-installed)
+
+
 <!--
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 -->
@@ -19,7 +22,31 @@ TBD
 
 # rama.birc.emory.edu
 
-## FSL: config and test
+## R: tested
+
+Tested R, including its 3D and GUI toolkits:
+
+```bash
+$ sudo R --no-save
+> library(rgl)
+> demo(rgl)
+> library(car)
+> library(Rcmdr)
+# mouse:
+#     1) Tools -> Load Rcmdr plug-ins... -> RcmdrPlugin.HH
+#     2) Data -> Data in packages -> Read data set from an attached package... -> PACKAGE: datasets, DATA SET: mtcars
+#     3) Data set: mtcars
+#     4) Graphs -> 3d graph -> 3d scatterplot... (HH). DV: mpg, IVs: disp, hp.
+#     5) Graphs -> 3d graph -> "Open new 3D grahics window", "Identify observations with mouse", "Show surface grid lines" 
+#
+# ...and the CLI version of steps 2-5:
+> data(mtcars, package="datasets")
+> scatter3dHH(mtcars$disp, mtcars$mpg, mtcars$hp, fit="linear", bg="white", grid=TRUE, squares=FALSE, xlab="disp", ylab="mpg", zlab="hp")
+> Identify3d(mtcars$disp, mtcars$mpg, mtcars$hp, labels=row.names(mtcars))
+> q()
+```
+
+## FSL: configured and tested 
 
 Looks like some FSL packages have been installed via neurodebia apt:
 
@@ -128,7 +155,7 @@ end time = Sun Aug 23 10:42:39 EDT 2015
 $
 ```
 
-## FSL FIX: install
+## FSL FIX: installed
 
 Download, extrat, and install FIX 1.062:
 
@@ -175,3 +202,4 @@ Edited FIX's `settings.sh` to reflect our MATLAB config:
 FSL_FIX_MATLAB_MODE=1 # Matlab script mode
 FSL_FIX_MATLAB_ROOT=/opt/MATLAB/R2015a
 ```
+
