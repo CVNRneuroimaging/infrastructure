@@ -8,7 +8,7 @@ Contents
   * [pano\.birc\.emory\.edu](#panobircemoryedu)
   * [rama\.birc\.emory\.edu](#ramabircemoryedu)
     * [FSL: config and test](#fsl-config-and-test)
-
+    * [FSL FIX: install](#fsl-fix-install)
 <!--
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 -->
@@ -128,3 +128,50 @@ end time = Sun Aug 23 10:42:39 EDT 2015
 $
 ```
 
+## FSL FIX: install
+
+Download, extrat, and install FIX 1.062:
+
+```bash
+# Download:
+$ scp stowler-local@pano.birc.emory.edu:${HOME}/Downloads/fix.tar.gz .
+
+# Check version:
+$ head fix1.06/settings.sh
+# Settings file for FIX
+# Modify these settings based on your system setup
+FIXVERSION=1.06
+#   (actually this version is 1.062 - see wiki page for details)
+
+# install system-wide:
+$ fixVersion=1.062
+$ sudo mv fix1.06 /opt/fix-${fixVersion}
+$ sudo ln -s /opt/fix-${fixVersion} /opt/fix
+```
+
+Configure system-wide shell environment for FIX:
+```bash
+$ echo "export PATH=/opt/fix:${PATH}" | sudo tee -a /etc/profile.d/birc_custom.sh
+$ echo $PATH
+/home/stowler-local/src.mywork.gitRepos/brainwhere:/home/stowler-local/bin:/home/stowler-local/src.mywork.gitRepos/brainwhere:/home/stowler-local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/fsl/5.0
+$ . /etc/profile.d/birc_custom.sh
+$ echo $PATH
+/opt/fix:/home/stowler-local/src.mywork.gitRepos/brainwhere:/home/stowler-local/bin:/home/stowler-local/src.mywork.gitRepos/brainwhere:/home/stowler-local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/fsl/5.0
+```
+
+Install R libraries for FIX:
+```bash
+$ sudo R --no-save
+> install.packages("kernlab",      dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("ROCR",         dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("class",        dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("party",        dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("e1071",        dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+> install.packages("randomForest", dependencies=TRUE, repos='http://cran.stat.ucla.edu')
+```
+
+Edited FIX's `settings.sh` to reflect our MATLAB config:
+```
+FSL_FIX_MATLAB_MODE=1 # Matlab script mode
+FSL_FIX_MATLAB_ROOT=/opt/MATLAB/R2015a
+```
