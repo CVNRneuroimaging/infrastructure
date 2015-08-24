@@ -24,7 +24,7 @@ TBD
 
 ## R: tested
 
-Tested R, including its 3D and GUI toolkits:
+Tested R, including its 3D and GUI toolkits. Everything works but per normal RGL is *super* slow over ssh forwarding.
 
 ```bash
 $ sudo R --no-save
@@ -157,7 +157,7 @@ $
 
 ## FSL FIX: installed
 
-Download, extrat, and install FIX 1.062:
+Download, extracted, and install FIX 1.062:
 
 ```bash
 # Download:
