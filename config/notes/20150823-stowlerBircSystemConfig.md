@@ -1,6 +1,6 @@
 # stowler BIRC system config: pano and rama on Sunday 20150823
 
-_...config and testing in progress..._
+_More config and testing to be done tmw, but here are today's notes._
 
 Contents
 =================
@@ -8,8 +8,18 @@ Contents
   * [pano\.birc\.emory\.edu](#panobircemoryedu)
   * [rama\.birc\.emory\.edu](#ramabircemoryedu)
     * [R: tested](#r-tested)
-    * [FSL: configured and tested](#fsl-configured-and-tested)
+    * [FSL: configured](#fsl-configured)
+      * [installed missing FSL packages](#installed-missing-fsl-packages)
+      * [configured FSL environment](#configured-fsl-environment)
+    * [FSL: tested](#fsl-tested)
+      * [installed standard FSL self\-test FEEDS](#installed-standard-fsl-self-test-feeds)
+      * [ran FSL self\-test FEEDS (passed)](#ran-fsl-self-test-feeds-passed)
     * [FSL FIX: installed](#fsl-fix-installed)
+      * [downloaded, extracted, and installed FIX 1\.062](#downloaded-extracted-and-installed-fix-1062)
+      * [configured FIX environment](#configured-fix-environment)
+      * [installed R libraries for FIX](#installed-r-libraries-for-fix)
+    * [FSL FIX: tested](#fsl-fix-tested)
+
 
 
 <!--
@@ -18,7 +28,7 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
 # pano.birc.emory.edu
 
-TBD
+_No work on pano today._
 
 # rama.birc.emory.edu
 
@@ -46,9 +56,9 @@ $ sudo R --no-save
 > q()
 ```
 
-## FSL: configured and tested 
+## FSL: configured
 
-Looks like some FSL packages have been installed via neurodebia apt:
+### installed missing FSL packages
 
 ```bash
 [09:20:36]-[stowler-local]-at-[rama]-in-[~]
@@ -98,7 +108,7 @@ Do you want to continue? [Y/n] Y
 $ sudo apt-get install fsl-feeds
 ```
 
-FSL environment not setup yet:
+### configured FSL environment
 
 ```bash
 [09:52:34]-[stowler-local]-at-[rama]-in-[~]
@@ -118,7 +128,11 @@ $ echo $FSLDIR
 /usr/share/fsl/5.0
 ```
 
-Install FEEDS system-wide:
+
+## FSL: tested
+
+### installed standard FSL self-test FEEDS
+
 ```bash
 $ cd Downloads
 $ feedsVersion=5.0.8
@@ -133,7 +147,8 @@ $ sudo chown -R root:root /opt/feeds-${feedsVersion}
 $ echo "Do not run FEEDS from /opt. Instead: cp -R --dereference /opt/feeds /tmp/yourFeedsCopy" | sudo tee -a README-doNotRunFromOpt.txt
 ```
 
-Run FSL self-test FEEDS:
+### ran FSL self-test FEEDS (passed)
+
 ```bash
 $ cp -R --dereference /opt/feeds /tmp/myFeedsCopy
 
@@ -157,7 +172,7 @@ $
 
 ## FSL FIX: installed
 
-Download, extracted, and install FIX 1.062:
+### downloaded, extracted, and installed FIX 1.062
 
 ```bash
 # Download:
@@ -176,7 +191,8 @@ $ sudo mv fix1.06 /opt/fix-${fixVersion}
 $ sudo ln -s /opt/fix-${fixVersion} /opt/fix
 ```
 
-Configure system-wide shell environment for FIX:
+### configured FIX environment
+
 ```bash
 $ echo "export PATH=/opt/fix:${PATH}" | sudo tee -a /etc/profile.d/birc_custom.sh
 $ echo $PATH
@@ -184,9 +200,14 @@ $ echo $PATH
 $ . /etc/profile.d/birc_custom.sh
 $ echo $PATH
 /opt/fix:/home/stowler-local/src.mywork.gitRepos/brainwhere:/home/stowler-local/bin:/home/stowler-local/src.mywork.gitRepos/brainwhere:/home/stowler-local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/fsl/5.0
+
+# Edited FIX's `settings.sh` to reflect our MATLAB config:
+FSL_FIX_MATLAB_MODE=1 # Matlab script mode
+FSL_FIX_MATLAB_ROOT=/opt/MATLAB/R2015a
 ```
 
-Install R libraries for FIX:
+### installed R libraries for FIX
+
 ```bash
 $ sudo R --no-save
 > install.packages("kernlab",      dependencies=TRUE, repos='http://cran.stat.ucla.edu')
@@ -197,9 +218,44 @@ $ sudo R --no-save
 > install.packages("randomForest", dependencies=TRUE, repos='http://cran.stat.ucla.edu')
 ```
 
-Edited FIX's `settings.sh` to reflect our MATLAB config:
-```
-FSL_FIX_MATLAB_MODE=1 # Matlab script mode
-FSL_FIX_MATLAB_ROOT=/opt/MATLAB/R2015a
-```
+## FSL FIX: tested
 
+[Tested][] FSL FIX to confirm that it produces expected results regardless of serial vs parallel execution:
+
+- [serial][] execution
+- 4x parallel execution via manual tmux
+- 4x [parallel][] execution via GNU parallel
+
+[Tested]: https://github.com/stowler/brainwhere/blob/master/docs/setupNeuroimagingEnvironment.md#test-fix
+[serial]: https://github.com/stowler/brainwhere/blob/master/utilitiesAndData/testsForFSL/testFix-singleSession.sh
+[parallel]: https://github.com/stowler/brainwhere/blob/master/utilitiesAndData/testsForFSL/testFix-parallel.gnu.sh
+
+Moved test results out of `/tmp` (Monday):
+```bash
+[13:46:08]-[stowler-local]-at-[rama]-in-[/tmp]
+$ du -sh *fixOut*
+121M    melFromFeeds-fixOut-parallel.gnuNoBash-thresh10-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnuNoBash-thresh15-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnuNoBash-thresh20-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnuNoBash-thresh5-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnu-thresh10-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnu-thresh15-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnu-thresh20-weightsStandard
+121M    melFromFeeds-fixOut-parallel.gnu-thresh5-weightsStandard
+121M    melFromFeeds-fixOut-parallel.tmux-thresh10-weightsStandard
+121M    melFromFeeds-fixOut-parallel.tmux-thresh15-weightsStandard
+121M    melFromFeeds-fixOut-parallel.tmux-thresh20-weightsStandard
+121M    melFromFeeds-fixOut-parallel.tmux-thresh5-weightsStandard
+121M    melFromFeeds-fixOut-serial.gnuNoBash-thresh10-weightsStandard
+121M    melFromFeeds-fixOut-serial.gnuNoBash-thresh15-weightsStandard
+121M    melFromFeeds-fixOut-serial.gnuNoBash-thresh20-weightsStandard
+121M    melFromFeeds-fixOut-serial.gnuNoBash-thresh5-weightsStandard
+121M    melFromFeeds-fixOut-serial-thresh10-weightsStandard
+121M    melFromFeeds-fixOut-serial-thresh15-weightsStandard
+121M    melFromFeeds-fixOut-serial-thresh20-weightsStandard
+121M    melFromFeeds-fixOut-serial-thresh5-weightsStandard
+
+[13:46:31]-[stowler-local]-at-[rama]-in-[/tmp]
+$ rsync -avR --progress *fixOut* stowler-local@pano.birc.emory.edu:/data/panolocal/tempStowler/ramaTests/
+
+```
