@@ -31,9 +31,32 @@ stowler-local@hippoback:/data/backup/Atlanta/stowlerxfer082115$ rsync -avR --pro
 
 ## gridengine: installed for single-host parallel processing
 
-Roughly followed [this guide] for installation and initial testing. Ubuntu 14.04 has known GUI bugs for this package (`Warning: Cannot convert string "intro" to type Pixmap`, etc.), but so far I've been able to get around them using the menus.
+Keith responded to my [ticket](https://github.com/CVNRneuroimaging/infrastructure/issues/144): he and Rob haven't configured SGE for their Ubuntu 14.04 lab deployments. 
 
-Added `FSLPARALLEL=1` to `/etc/fsl/fsl.sh`.
+So I installed the gridengine packages from the native repos. It turns out Ubuntu 14.04 has known GUI bugs for this package (`Warning: Cannot convert string "intro" to type Pixmap`, etc.), but so far I've been able to get around them using the menus.
+
+
+```
+[09:08:59]-[stowler-local]-at-[rama]-in-[~/src.mywork.gitRepos/brainwhere/utilitiesAndData/testsForFSL] on master [?]
+$ sudo apt-get install gridengine-master gridengine-exec gridengine-client gridengine-qmon gridengine-common
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following extra packages will be installed:
+  bsd-mailx postfix xfonts-75dpi
+Suggested packages:
+  procmail postfix-mysql postfix-pgsql postfix-ldap postfix-pcre sasl2-bin
+  dovecot-common postfix-cdb postfix-doc
+The following NEW packages will be installed:
+  bsd-mailx gridengine-client gridengine-common gridengine-exec
+  gridengine-master gridengine-qmon postfix xfonts-75dpi
+0 upgraded, 8 newly installed, 0 to remove and 0 not upgraded.
+Need to get 12.8 MB of archives.
+After this operation, 57.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+```
+
+Then I roughly followed [this guide] for installation and initial testing.
 
 [this guide]: https://scidom.wordpress.com/2012/01/18/sge-on-single-pc/
 
@@ -132,7 +155,127 @@ Melodic Started at Mon Aug 24 14:50:12 EDT 2015 :
 
 ## gridengine: install for single-host parallel processing
 
-TBD: will install after testing parallel MELODIC on pano because it is possible that will need to use son of grid engine rather than ubuntu 14.04's default gridengine.
+Same approach as rama install (see above):
+
+```bash
+[21:51:13]-[stowler-local]-at-[rama]-in-[/tmp]
+$ sudo apt-get install gridengine-master gridengine-exec gridengine-client gridengine-qmon gridengine-common
+[sudo] password for stowler-local:
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following extra packages will be installed:
+  bsd-mailx postfix xfonts-75dpi
+Suggested packages:
+  procmail postfix-mysql postfix-pgsql postfix-ldap postfix-pcre sasl2-bin
+  dovecot-common postfix-cdb postfix-doc
+The following NEW packages will be installed:
+  bsd-mailx gridengine-client gridengine-common gridengine-exec
+  gridengine-master gridengine-qmon postfix xfonts-75dpi
+0 upgraded, 8 newly installed, 0 to remove and 0 not upgraded.
+Need to get 12.8 MB of archives.
+After this operation, 57.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+```
+
+- Postfix: none
+- SGE cell: default
+- SGE master host name: rama.birc.emory.edu
+
+postfix messages:
+
+```bash
+# ...snip...
+Setting up postfix (2.11.0-1ubuntu1) ...
+Adding group `postfix' (GID 126) ...
+Done.
+Adding system user `postfix' (UID 118) ...
+Adding new user `postfix' (UID 118) with group `postfix' ...
+Not creating home directory `/var/spool/postfix'.
+Creating /etc/postfix/dynamicmaps.cf
+Adding tcp map entry to /etc/postfix/dynamicmaps.cf
+Adding sqlite map entry to /etc/postfix/dynamicmaps.cf
+Adding group `postdrop' (GID 127) ...
+Done.
+/etc/aliases does not exist, creating it.
+
+Postfix was not set up.  Start with
+  cp /usr/share/postfix/main.cf.debian /etc/postfix/main.cf
+.  If you need to make changes, edit
+/etc/postfix/main.cf (and others) as needed.  To view Postfix configuration
+values, see postconf(1).
+
+After modifying main.cf, be sure to run '/etc/init.d/postfix reload'.
+
+Setting up xfonts-75dpi (1:1.0.3) ...
+Processing triggers for ufw (0.34~rc-0ubuntu2) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+Setting up bsd-mailx (8.1.2-0.20131005cvs-1ubuntu0.14.04.1) ...
+update-alternatives: using /usr/bin/bsd-mailx to provide /usr/bin/mailx (mailx) in auto mode
+```
+
+Initialization messages:
+
+```bash
+Initializing cluster with the following parameters:
+ => SGE_ROOT: /var/lib/gridengine
+ => SGE_CELL: default
+ => Spool directory: /var/spool/gridengine/spooldb
+ => Initial manager user: sgeadmin
+Initializing spool (/var/spool/gridengine/spooldb)
+Initializing global configuration based on /usr/share/gridengine/default-configuration
+Initializing complexes based on /usr/share/gridengine/centry
+Initializing usersets based on /usr/share/gridengine/usersets
+Adding user sgeadmin as a manager
+Cluster creation complete
+Setting up gridengine-qmon (6.2u5-7.3) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+```
+
+Is it running? Yes:
+```bash
+[22:05:29]-[stowler-local]-at-[rama]-in-[/tmp]
+$ ps aux | grep sge
+sgeadmin 30785  0.2  0.0  62624  3636 ?        Sl   22:05   0:01 /usr/lib/gridengine/sge_execd
+sgeadmin 30846  0.0  0.0 147276  7216 ?        Sl   22:05   0:00 /usr/lib/gridengine/sge_qmaster
+stowler+ 30910  0.0  0.0  18936  2232 pts/22   S+   22:12   0:00 grep sge
+```
+
+Couldn't launch `qmon` over ssh forwarding, so I rebooted, after which I was able to launch `qmon` over ssh forwarding.
+
+Got hostname-related errors:
+
+```bash
+[23:06:45]-[stowler-local]-at-[rama]-in-[~]
+$ qstat
+error: commlib error: access denied (client IP resolved to host name "localhost". This is not identical to clients host name "rama.birc.emory.edu")
+error: unable to contact qmaster using port 6444 on host "rama.birc.emory.edu"
+
+[23:08:56]-[stowler-local]-at-[rama]-in-[~]
+$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	rama.birc.emory.edu	rama
+...snip...
+```
+
+...so I edited /etc/hosts and rebooted:
+
+```bash
+[23:12:41]-[stowler-local]-at-[rama]-in-[~]
+$ cat /etc/hosts
+127.0.0.1       localhost.localdomain   localhost
+10.231.5.149    rama.birc.emory.edu     rama
+
+[23:12:45]-[stowler-local]-at-[rama]-in-[~]
+$ sudo shutdown -r now
+```
+
+Launched `sudo qmon` over ssh forwarding. Immediately after launch it seems to stop itself and must be resumed with `fg`.
+
+Just like on the console, display errors prevent much of the GUI from being visible, so I configured according to the screenshots in [this article](https://scidom.wordpress.com/2012/01/18/sge-on-single-pc/).
+
+
 
 ## gridengine: test on MELODIC group ICA
 
