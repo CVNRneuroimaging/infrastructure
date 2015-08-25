@@ -53,5 +53,10 @@ $ du -sh /data/panolocal/tempStowler
 
 [14:26:33]-[stowler-local]-at-[rama]-in-[~]
 $ rsync -av --progress stowler-local@pano:/data/panolocal/tempStowler /data/panolocal/
-
 ```
+
+## melview: install and test
+
+Installed and tested melview. Recorded [commands and stdout][] for future troubleshooting.
+
+[commands and stdout]: https://github.com/CVNRneuroimaging/infrastructure/blob/master/config/notes/20150825-stowlerInstalledMelviewOnRama.md
