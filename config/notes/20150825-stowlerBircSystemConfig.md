@@ -1,6 +1,6 @@
 # stowler BIRC system config: pano and rama on Tuesday 20150825
 
-_config and testing in progress..._
+_More config and testing TBD but these are my notes from today._
 
 Contents
 =================
@@ -11,7 +11,7 @@ Contents
   * [rama\.birc\.emory\.edu](#ramabircemoryedu)
     * [ssh key management](#ssh-key-management-1)
     * [gridengine: configured FSL work\-around](#gridengine-configured-fsl-work-around)
-    * [gridengine: test on MELODIC group ICA](#gridengine-test-on-melodic-group-ica)
+    * [gridengine: tested on MELODIC group ICA](#gridengine-tested-on-melodic-group-ica)
     * [melview: installed and tested](#melview-installed-and-tested)
 
 <!--
@@ -103,9 +103,11 @@ map_qname ()
 
 ```
 
-## gridengine: test on MELODIC group ICA
+## gridengine: tested on MELODIC group ICA
 
-Copied files from pano to duplicate yesterday's testing. Topped out at about 80 MB/s, mean 35-40:
+_TBD: copy results to pano, backup, review html report._
+
+Copied files from pano to replicate yesterday's pano testing. Topped out at about 80 MB/s, mean 35-40:
 ```bash
 [14:25:08]-[stowler-local]-at-[pano]-in-[/data/panolocal]
 $ du -sh /data/panolocal/tempStowler
@@ -154,7 +156,7 @@ $ sudo shutdown -r now
 $
 ```
 
-...launch via Melodic GUI, then monitor:
+...launch via Melodic GUI, no live web monitor. Completed in about 3 hours:
 ```bash
 
 # after gica launch, htop shows all 24 cores at 100%. Good sign.
@@ -168,6 +170,16 @@ drwxrwxr-x 5 stowler-local stowler-local 4096 Aug 25 16:56 /tmp/melFromFeeds-gro
 Melodic Started at Tue Aug 25 16:56:31 EDT 2015 :
 1008K   /tmp/melFromFeeds-groupICA-FSLPARALLELrama-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica
 ...but melodic not yet finished as of Tue Aug 25 16:57:16 EDT 2015. Will check again in 20 seconds...
+
+#...snip...
+#...snip...
+#...snip...
+
+Melodic Started at Tue Aug 25 16:56:31 EDT 2015 :
+159M    /tmp/melFromFeeds-groupICA-FSLPARALLELrama-inputsCleaned-temporalCat-structBBR-standard2mmNonlinear.gica
+...but melodic not yet finished as of Tue Aug 25 19:59:05 EDT 2015. Will check again in 20 seconds...
+
+Finished at Tue Aug 25 19:59:20 EDT 2015
 
 ```
 
