@@ -1,0 +1,14 @@
+# disallow_user_power_changes.pkla
+# put in /etc/polkit-1/localauthority/20-org.d or somewhere like it
+
+[Disallow user from doing power related things]
+Identity=unix-user:*
+Action=org.freedesktop.upower.suspend;org.freedesktop.upower.hibernate;org.freedesktop.login1.power-off;org.freedesktop.login1.power-off-multiple-sessions;org.freedesktop.login1.reboot;org.freedesktop.login1.reboot-multiple-sessions;org.freedesktop.login1.suspend;org.freedesktop.login1.suspend-multiple-sessions;org.freedesktop.login1.hibernate;org.freedesktop.login1.hibernate-multiple-sessions
+ResultAny=no
+ResultActive=no
+ResultInactive=no
+
+
+
+
+ 
